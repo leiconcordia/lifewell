@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 5;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: #3B5704;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px;
+        
+        }
+
+        .sidebar-header {
+            font-size: 30px;
+            font-weight: bold;
+            color: #fff;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+            padding-left: 10px;
+            gap: 15px;
+            }
+        .sidebar-header img{
+            margin-right: px;
+        }
+        .menu {
+            list-style-type: none;
+            padding: 0;
+            boarder: none;
+            
+        }
+
+        .menu li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .menu button:hover {
+            background-color: #253010;
+            color: #e9edf0;
+        }
+
+        .menu button:active {
+            background-color: #043102;
+            color: #122e02;
+        }
+
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .dashboard {
+            background-color: #403E3E;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            margin-top: -40px;
+            width: 100%;
+            
+        }
+
+        .dashboard-link{
+            background-color: #769949;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select {
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 200px;
+            background-color: #769949;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-left: 30px;
+        }
+        .dashboard-link:placeholder-shown{
+            background-color:#000000;
+        }
+        .active{
+            background-color:#253010;
+        }
+        
+    </style>
+    <title>Dashboard</title>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+            <img src="images/logo.png"style="width:40px;height:40px;">
+            <p>LifeWell</p><!-- Company Name -->
+            <a href="user.html">
+                <img id="userhp" src="images/icon.jpg" style="width:50px;height:50px;">
+            </a>
+        </div>
+        <!-- Menu Items -->
+        
+        <ul class="menu">
+            <li><button id="dashboard-link" href="Dashboard.html">Dashboard</button></li>
+            <li><button id="products-link" href = 'product.html'>Products</button></li>
+            <li><button class="active" id="supplier-link" href= 'supplier.html'> Purchase Order</button></li>
+            <li><button id="logout">Logout</button></li>
+
+
+        </ul>
+        <script>
+            document.getElementById('logout').onclick = function() {
+              location.href = 'login.html';
+            };
+            document.getElementById('products-link').onclick = function() {
+              location.href = 'productgraph.html';
+            };
+            document.getElementById('supplier-link').onclick = function() {
+              location.href = 'supplier.html';
+            };
+          </script>
+
+       
+    
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Section -->
+        <div class="dashboard">
+            <!-- Dashboard Title -->
+            <h2 id="dashboard-title">Supplier</h2>
+        
+            </div>
+
+        <script src="functions.js"></script>  
+</body>
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 5;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: #3B5704;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px;
+        }
+
+        .sidebar-header {
+            font-size: 30px;
+            font-weight: bold;
+            color: #fff;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+            padding-left: 10px;
+            gap: 15px;
+
+            }
+
+
+        .menu {
+            list-style-type: none;
+            padding: 0;
+            border: none;
+        }
+
+        .menu li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .menu button:hover {
+            background-color: #253010;
+            color: #e9edf0;
+        }
+
+        .menu button:active {
+            background-color: #043102;
+            color: #122e02;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .dashboard {
+            background-color: #403E3E;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            margin-top: -40px;
+            width: 100%;
+            align-items: first baseline;
+            right: 10px;
+        }
+
+        .dashboard-link {
+            background-color: #769949;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select {
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 200px;
+            background-color: #769949;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-left: 30px;
+        }
+
+        .dashboard-link:placeholder-shown {
+            background-color: #000000;
+        }
+
+        .active {
+            background-color: #253010;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d3f4cf;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            height: 300px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 50px;
+            overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: left;
+            margin-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 30px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: center;
+            align-self: center;
+            
+            
+            
+        }
+
+        th {
+            background-color: #3B5704;
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top:10px;
+            cursor: pointer;
+        }
+
+        .buttons button:hover {
+            background-color:#000000;
+        }
+
+        .h2-graph {
+            background-color: #3B5704;
+            width: 215px;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+        }
+    
+
+
+/* The Modal (background) */
+.modal {
+display: none; /* Hidden by default */
+position: fixed; /* Stay in place */
+z-index: 1; /* Sit on top */
+padding-top: 100px; /* Location of the box */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+background-color: #fefefe;
+margin: auto;
+padding: 20px;
+border: 1px solid #888;
+width: 80%;
+max-width: 800px;
+}
+
+/* The Close Button */
+.close {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: black;
+text-decoration: none;
+cursor: pointer;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    overflow: auto;
+}
+
+.popup-content {
+    position: absolute;
+    left: 59%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.close {
+    color: #aaa;
+    font-weight: bold;
+    position: relative;
+    bottom: 3px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.delete-button{
+    background-color: #043102;
+    width: fit-content;
+    font-size: 9px;
+    margin: 0%;
+}
+
+.form-control{
+text-align: center;
+
+}
+#addProductForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 30px; /* Adjust margin as needed */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Adjust spacing between form groups */
+}
+
+.addpbtn{
+    text-align: center;
+    margin-top:10px;
+    cursor: pointer;
+    background-color:#043102;
+    position: relative;
+    top: 415px;
+    left: 310px;
+}
+.addbtn{
+    background-color: #043102;
+}
+    
+
+    </style>
+    <title>Dashboard</title>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+            <img src="images/logo.png" style="width:40px;height:40px;">
+            <p>LifeWell</p><!-- Company Name -->
+            <a href="user.html">
+                <img id="userhp" src="images/icon.jpg" style="width:50px;height:50px;">
+            </a>
+
+                </div>
+                <!-- Menu Items -->
+                <ul class="menu">
+                    <li><button id="dashboard-link" href="Dashboard.html">Dashboard</button></li>
+                    <li><button id="reports-link">Reports</button></li>
+                    <li><button class="active" id="products-link" href="product.html">Products</button></li>
+                    <li><button id="supplier-link">Supplier</button></li>
+                    <li><button id="logout">Logout</button></li>
+        
+                    <script>
+                      document.getElementById('logout').onclick = function() {
+                        location.href = 'login.html';
+                      };
+                    </script>
+                </ul>
+            </div>
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Dashboard Section -->
+                <div class="dashboard">
+                    <!-- Dashboard Title -->
+                    <h2 id="dashboard-title">Products</h2>
+                </div>
+               
+                <script>
+                    // Array to store product data
+                    var products = [];
+                    var productIdCounter = 1; // Counter for product IDs
+                
+                    // Function to toggle the popup
+                    function togglePopup() {
+                        var popup = document.getElementById('popup');
+                        popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
+                    }
+                
+                    // Function to add a new product to the table
+                    function addProduct(event) {
+                        event.preventDefault(); // Prevent form submission
+                        var productName = document.getElementById('productName').value.trim();
+                        var quantity = parseInt(document.getElementById('quantity').value.trim());
+                        var price = parseFloat(document.getElementById('price').value.trim());
+                
+                        if (productName && quantity && price) {
+                            // Create a new product object with an ID
+                            var product = {
+                                id: productIdCounter++,
+                                name: productName,
+                                quantity: quantity,
+                                price: price
+                            };
+                
+                            // Add the new product to the products array
+                            products.push(product);
+                
+                            // Update the table
+                            updateTable();
+                
+                            // Clear the form fields
+                            document.getElementById('productName').value = '';
+                            document.getElementById('quantity').value = '';
+                            document.getElementById('price').value = '';
+                
+                            // Close the popup
+                            togglePopup();
+                        } else {
+                            alert("Please fill in all fields.");
+                        }
+                    }
+                
+                    // Function to update the table with the current product data
+                    function updateTable() {
+                        var tableBody = document.getElementById('tableBody');
+                        tableBody.innerHTML = '';
+                
+                        // Loop through the products array and add each product to the table
+                        products.forEach(function(product) {
+                            var status = product.quantity === 0 ? 'Out of stock' : 'In stock';
+                            var row = '<tr><td>' + product.id + '</td><td>' + product.name + '</td><td>' + status + '</td><td>' + product.quantity + '</td><td>' + product.price + '</td><td><button class="delete-button" onclick="deleteProduct(' + product.id + ')">Delete</button></td></tr>';
+                            tableBody.innerHTML += row;
+                        });
+                    }
+                
+                    // Function to delete a product from the table
+                    function deleteProduct(productId) {
+                        // Find the index of the product with the given ID
+                        var index = products.findIndex(function(product) {
+                            return product.id === productId;
+                        });
+                
+                        if (index !== -1) {
+                            // Remove the product at the specified index from the products array
+                            products.splice(index, 1);
+                            // Update the table
+                            updateTable();
+                        }
+                    }
+                
+                    // Call updateTable initially to populate the table
+                    updateTable();
+                </script>
+
+<div class="buttons">
+    <button class="addpbtn" onclick="togglePopup()">Add product</button> 
+
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <span class="close" onclick="togglePopup()">&times;</span>
+            <form id="addProductForm">
+                <h2>ADD PRODUCT</h2>
+                <div class="form-group">
+                    <label for="productName">Product name:</label>
+                    <input type="text" class="form-control" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" class="form-control" id="quantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" step="1" class="form-control" id="price" required style="margin-bottom: 10px;">
+                </div>
+                <button type="submit" class="addbtn">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+            
+                <div class="container">
+                    <div class="h2-graph">
+                        <h2>Product List</h2>
+                    </div>
+                    <div class="Scrollbar-product"> 
+                        <table id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>      
+                    </div>
+                </div>
+            </div>
+            <script type="module">
+                // Import the functions you need from the SDKs you need
+                import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+                import { getDatabase, ref, set, get, child, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+                
+                // Your web app's Firebase configuration
+                const firebaseConfig = {
+       apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
+       authDomain: "lifewell123-94d55.firebaseapp.com",
+       projectId: "lifewell123-94d55",
+       storageBucket: "lifewell123-94d55.appspot.com",
+       messagingSenderId: "958606030210",
+       appId: "1:958606030210:web:095349c11ad004314dcb9b",
+       measurementId: "G-LYPQVRSX5E"
+     };
+        
+                // Initialize Firebase
+                const app = initializeApp(firebaseConfig);
+                const db = getDatabase(app);
+
+                function togglePopup() {
+                    var popup = document.getElementById('popup');
+                    popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
+                }
+        
+              
+          
+               // Function to add a new product to the database
+// Initialize a counter for generating sequential IDs
+let idCounter = 0;
+
+
+// Function to fetch products from the database and update the table
+function fetchProducts() {
+    const productsRef = ref(db, 'products');
+    onValue(productsRef, (snapshot) => {
+        if (snapshot.exists()) {
+            console.log("Data snapshot exists");
+            const products = snapshot.val();
+            console.log("Products:", products);
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = ''; // Clear the table
+            Object.keys(products).forEach((id) => {
+                const product = products[id];
+                const status = parseInt(product.quantity) === 0 ? 'Out of stock' : 'In stock';
+                const row = `<tr>
+                    <td>${id}</td>
+                    <td>${product.name}</td>
+                    <td>${status}</td>
+                    <td>${product.quantity}</td>
+                    <td>${product.price}</td>
+                    <td>
+                        <button class="delete-button" data-id="${id}">Delete</button>
+                        <button class="edit-button" data-id="${id}">Edit</button>
+                    </td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+            // Call updateDeleteButtons and updateEditButtons after the table is updated
+            updateDeleteButtons();
+            updateEditButtons();
+        } else {
+            console.log("No data available");
+        }
+    }, (error) => {
+        console.error("Error fetching products:", error);
+    });
+}
+
+// Function to delete a product from the database
+function deleteProduct(id) {
+    // Show the confirmation dialog
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If confirmed, proceed to delete the product from the database
+            remove(ref(db, "products/" + id))
+                .then(() => {
+                    fetchProducts(); // Update the table
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Product deleted from database.",
+                        icon: "success"
+                    });
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Failed to delete product from database.",
+                        icon: "error"
+                    });
+                });
+        }
+    });
+}
+
+// Function to edit a product
+function editProduct(id) {
+    const productsRef = ref(db, 'products/' + id);
+    get(productsRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const product = snapshot.val();
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('quantity').value = product.quantity;
+            document.getElementById('price').value = product.price;
+            togglePopup(); // Show the form for editing
+        } else {
+            console.error("Product not found!");
+        }
+    }).catch((error) => {
+        console.error("Error fetching product:", error);
+    });
+}
+
+// Function to add or update a product in the database
+function addProduct(event) {
+    event.preventDefault(); // Prevent form submission
+    var productId = document.getElementById('productId').value.trim();
+    var productName = document.getElementById('productName').value.trim();
+    var quantity = document.getElementById('quantity').value.trim();
+    var price = document.getElementById('price').value.trim();
+
+    if (productName && quantity && price) {
+        if (productId) {
+            // Update existing product
+            set(ref(db, "products/" + productId), {
+                id: productId,
+                name: productName,
+                quantity: parseInt(quantity),
+                price: parseFloat(price)
+            })
+            .then(() => {
+                Swal.fire({
+                    title: "Successful!",
+                    text: "Product updated in the database!",
+                    icon: "success"
+                });
+                document.getElementById('addProductForm').reset();
+                fetchProducts(); // Refresh the table
+                togglePopup();
+            })
+            .catch((error) => {
+                console.error("Error updating product:", error);
+            });
+        } else {
+            // Add new product
+            const id = Date.now().toString(); // Generate a unique ID for the product
+            set(ref(db, "products/" + id), {
+                id: id,
+                name: productName,
+                quantity: parseInt(quantity),
+                price: parseFloat(price)
+            })
+            .then(() => {
+                Swal.fire({
+                    title: "Successful!",
+                    text: "Product added to the database!",
+                    icon: "success"
+                });
+                document.getElementById('addProductForm').reset();
+                fetchProducts(); // Refresh the table
+                togglePopup();
+            })
+            .catch((error) => {
+                console.error("Error adding product:", error);
+            });
+        }
+    } else {
+        alert("Please fill in all fields.");
+    }
+}
+
+// Update the delete buttons in the table to call the deleteProduct function
+function updateDeleteButtons() {
+    var deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var id = this.getAttribute('data-id'); // Get the product ID from the button's data-id attribute
+            deleteProduct(id);
+        });
+    });
+}
+
+// Update the edit buttons in the table to call the editProduct function
+function updateEditButtons() {
+    var editButtons = document.querySelectorAll('.edit-button');
+    editButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var id = this.getAttribute('data-id'); // Get the product ID from the button's data-id attribute
+            editProduct(id);
+        });
+    });
+}
+
+// Attach event listener to the form for adding or updating products
+document.getElementById('addProductForm').addEventListener('submit', addProduct);
+
+// Fetch and display products when the page loads
+document.addEventListener('DOMContentLoaded', fetchProducts);
+            </script>
+        
+        <script src="functions.js"></script>
+           
+        </body>
+        </html>
+        </body>
+        </html> 
+        
+

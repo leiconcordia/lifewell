@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert2@10"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LifeWell Login</title>
+<style>
+    body {
+        background-image: url('images/bg.jpeg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+        background-color: #EDFFCC;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        width: 300px;
+        padding: 20px;
+        background-color: #3B5704;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 5px;
+        color: white;
+    }
+
+    input {
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #59981A;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #253010;
+    }
+
+    .register-link {
+        margin-top: 15px;
+        text-align: center;
+        color: white;
+    }
+
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .logo-container img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+    a {
+        text-decoration: none;
+        font-weight: bold;
+        color: white;
+    }
+
+    a:hover {
+        color: #ccc;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-container">
+        <img src="images/logo.png" alt="Logo">
+        <h2 style="color:#EDFFCC; margin: 0;">LifeWell Login</h2>
+    </div>
+
+    <form id="loginForm">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter username" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="register-link">
+        <p>Don't have an account? <a href="Register.html">Register</a></p>
+    </div>
+</div>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+ // TODO: Add SDKs for Firebase products that you want to use
+ // https://firebase.google.com/docs/web/setup#available-libraries
+
+ // Your web app's Firebase configuration
+ // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+ const firebaseConfig = {
+   apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
+   authDomain: "lifewell123-94d55.firebaseapp.com",
+   projectId: "lifewell123-94d55",
+   storageBucket: "lifewell123-94d55.appspot.com",
+   messagingSenderId: "958606030210",
+   appId: "1:958606030210:web:095349c11ad004314dcb9b",
+   measurementId: "G-LYPQVRSX5E"
+ };
+
+ // Initialize Firebase
+ const app = initializeApp(firebaseConfig);
+ const analytics = getAnalytics(app);
+
+ import {getDatabase, ref, set, child, update, remove, get}
+ from  "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+ const db = getDatabase();
+
+
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+
+    async function loginUser(event) {
+        event.preventDefault();
+
+        const username = usernameInput.value;
+        const password = passwordInput.value;
+
+        const dbRef = ref(db);
+        try {
+            const snapshot = await get(child(dbRef, `users/${username}`));
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+            if (userData.pass === password) {
+                Swal.fire({
+                    title: "Successful!",
+                    text: "Login successful!",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = 'Dashboard.html';
+                });
+            } else {
+                passwordInput.value = '';
+                Swal.fire({
+                    title: "Error",
+                    text: "Invalid password",
+                    icon: "error"
+                });
+            }
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: "User does not exist",
+                icon: "error"
+            });
+        }
+        } catch (error) {
+            alert("Error: " + error);
+        }
+    }
+
+    loginForm.addEventListener('submit', loginUser);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Ranking</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style-gwyn.css">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon-32x32.png" />
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="left-side">
+            <img src="logo-official.png" alt="logo">
+            <!-- Your left side content goes here -->
+        </div>
+
+        <div id="right-side">
+            <!-- Your right side content goes here -->
+            <div id="top">
+                <h1 id="new-ranking">New Ranking</h1>
+            </div>
+
+            <div class="box">
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="total-points">Total Possible Points:</label>
+                        <input type="number" id="total-points" name="total-points" min="1" max="300" required>
+                    </div>
+                    <div class="form-group">
+                        <span for="section">Section:</span>
+                        <select id="section" name="section" required>
+                            <option value="BSIT1201">BSIT1201</option>
+                            <option value="BSIT1202">BSIT1202</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span for="date-time">Date and Time:</span>
+                        <input type="text" id="date-time" name="date-time" readonly>
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-group">
+                        <span for="exam-period">Examination Period:</span>
+                        <select id="exam-period" name="exam-period" required>
+                            <option value="First Sem-Prelim">First Sem - Prelim</option>
+                            <option value="First Sem-Midterm">First Sem - Midterm</option>
+                            <option value="First Sem-Prefi">First Sem - Prefinal</option>
+                            <option value="First Sem-Finals">First Sem - Finals</option>
+                            <option value="Second Sem-Prelim">Second Sem - Prelim</option>
+                            <option value="Second Sem-Midterm">Second Sem - Midterm</option>
+                            <option value="Second Sem-Prefi">Second Sem - Prefinal</option>
+                            <option value="Second Sem-Finals">Second Sem - Finals</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span for="subject">Subject:</span>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                </div>
+
+                <hr>
+                
+                <div id="student-name">Student's Name:</div>
+                <div class="name-row">
+                    <div id="student-name-input">
+                        <form id="dataForm"><input type="text" id="lastName" name="lastName" required></form>
+                        <label for="lastName">Last Name</label>
+                    </div>
+                    <div id="student-name-input">
+                        <form id="dataForm"><input type="text" id="firstName" name="firstName" required></form>
+                        <label for="firstName">First Name</label>
+                    </div>
+                    <div id="student-name-input">
+                        <form id="dataForm"><input type="text" id="middleName" name="middleName" required></form>
+                        <label for="middleName">Middle Name</label>
+                    </div>
+                </div>
+
+                <div class="score-row">
+                    <div id="score-gender">
+                        <label for="studentScore">Student's Score</label>
+                        <form id="dataForm"><input type="number" id="studentScore" name="studentScore" min="1" max="300" required></form>
+                    </div>
+
+                    <div id="control">
+                        <div id="gender-top">Gender</div> 
+                        <div id="gender-group">
+                            <div class="gender">
+                                <input type="radio" id="female" name="gender" value="female">
+                                <label for="female">Female</label>
+                            </div>
+                            <div class="gender">
+                                <input type="radio" id="male" name="gender" value="male">
+                                <label for="male">Male</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="student-button">
+                        <input id="saveButton" class="btn btn-primary" type="button" value="Save">
+                        <input id="discardButton" class="btn btn-primary" type="button" value="Discard">
+                    </div>
+                </div>
+                
+                <div class="scrollable-rank">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Gender</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                
+                <div class="finish-discard">
+                    <input id="finish-list" onclick="navigateToIndexBasty()" class="btn btn-primary" type="submit" value="Finish">
+                    <input id="discard-list" onclick="navigateToSkeleton()" class="btn btn-primary" type="button" value="Discard">
+                </div>
+                
+        </div>
+    </div>
+</div>
+
+
+
+<script type="module">
+    
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDnNKZmb5I4EMwLbKfM6C90W5NY8fzG2Cc",
+    authDomain: "database-acadrate.firebaseapp.com",
+    databaseURL: "https://database-acadrate-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "database-acadrate",
+    storageBucket: "database-acadrate.appspot.com",
+    messagingSenderId: "749716476465",
+    appId: "1:749716476465:web:db558ca1cf17ee8ce3bb10"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+    import {getDatabase, ref, child, get, set, update, remove} from "https://www.gstatic.com/firebasejs/10.12.1/firebase-database.js";
+  
+    const db = getDatabase();
+
+    var lastName = document.getElementById('lastName');
+    var firstName = document.getElementById('firstName');
+    var middleName = document.getElementById('middleName');
+    var studentScore = document.getElementById('studentScore');
+    var gender = document.getElementsByName('gender');
+
+    var saveButton = document.getElementById('saveButton');
+
+    function AddData(event) {
+        let selectedGender = document.querySelector('input[name="gender"]:checked').value;
+        set(ref(db, 'StudentData/' + lastName.value), {
+            nameofstudent: {lastname: lastName.value, firstname: firstName.value, middlename: middleName.value},
+            gender: selectedGender,
+            score: studentScore.value 
+        }).then(()=>{
+            alert("Data Added Successfully");
+        }).catch((error)=>{
+            alert("Unsuccessful!");
+            console.log(error);
+        })
+    }
+
+    function RetData(){
+        const dpRef = ref(db);
+        
+        get(child(dbRef, 'StudentData/' + lastName.value)).then((snapshot) => {
+            if (snapshot.exists()) {
+                lastName.value = snapshot.val().nameofstudent.lastname;
+                firstName.value = snapshot.val().nameofstudent.firstname;
+                middleName.value = snapshot.val().nameofstudent.middlename;
+                gender.value = snapshot.val().gender;
+                studentScore.value = snapshot.val().score;
+            } else {
+                alert("No Data Found");
+            }
+        }).catch((error)=>{
+            alert("Unsuccessful!");
+            console.log(error);
+        });
+    }
+
+    function UpdateData() {
+        let selectedGender = document.querySelector('input[name="gender"]:checked').value;
+        update(ref(db, 'StudentData/' + lastName.value), {
+            nameofstudent: {lastname: lastName.value, firstname: firstName.value, middlename: middleName.value},
+            gender: selectedGender,
+            score: studentScore.value 
+        }).then(()=>{
+            alert("Data Updated Successfully");
+        }).catch((error)=>{
+            alert("Unsuccessful!");
+            console.log(error);
+        })
+    }
+
+    function DeleteData() {
+    remove(ref(db, 'StudentData/' + lastName.value)).then(() => {
+        alert("Data Deleted Successfully");
+    }).catch((error) => {
+        alert("Unsuccessful!");
+        console.log(error);
+    });
+}
+
+saveButton.addEventListener('click', AddData);
+</script>  
+
+<script src="main-gwyn.js"></script>
+
+</body>
+</html>

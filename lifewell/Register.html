@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert2@10"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LifeWell Registration</title>
+<style>
+    body {
+        background-image: url('images/bg.jpeg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+        background-color: #EDFFCC;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        width: 300px;
+        padding: 20px;
+        background-color: #3B5704;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+       
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 5px;
+        color: white;
+    }
+
+    input {
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #59981A;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #253010;
+    }
+
+    .register-link {
+        margin-top: 15px;
+        text-align: center;
+        color: white;
+    }
+
+    .logo-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        gap: 5px;
+        padding: 10px 5px;
+        margin-bottom: 20px;
+    }
+
+    .logo-container img {
+        border-radius: 10px;
+    }
+
+    a {
+        text-decoration: none;
+        font-weight: bold;
+        font-size: large;
+    }
+
+    a:hover {
+        cursor: pointer;
+        color: rgb(0, 0, 0) !important;
+    }
+    .bg-image {
+    
+    /* Add other background properties if needed */
+    background-size: cover; /* Optional: Ensure the image covers the entire element */
+    height: 100vh; /* Optional: Set a height for the element */
+}
+
+</style>
+</head>
+<body>
+   
+    <div class="container">
+        <!-- LifeWell Logo -->
+        <div class="logo-container">
+            <img src="images/logo.png" style="width:30px; height:30px;">
+            <h2 style="color:#EDFFCC; margin: 0 !important;"><b>LifeWell Registration</b></h2>
+        </div>
+
+        <!-- Registration Form -->
+        <form id="registrationForm">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter username" required>
+     
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstname" name="firstName" placeholder="Enter First Name" required>
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastname" name="lastName" placeholder="Enter Last Name" required>
+
+            <label for="password">Create Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        
+            <button type="submit">Register</button>
+        </form>
+        
+        <!-- Already have an account? -->   
+        <div class="register-link">
+            <p>Already have an account?
+                <a href="Login.html" style="color:white;" target="_self">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+     // TODO: Add SDKs for Firebase products that you want to use
+     // https://firebase.google.com/docs/web/setup#available-libraries
+   
+     // Your web app's Firebase configuration
+     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+     const firebaseConfig = {
+       apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
+       authDomain: "lifewell123-94d55.firebaseapp.com",
+       projectId: "lifewell123-94d55",
+       storageBucket: "lifewell123-94d55.appspot.com",
+       messagingSenderId: "958606030210",
+       appId: "1:958606030210:web:095349c11ad004314dcb9b",
+       measurementId: "G-LYPQVRSX5E"
+     };
+   
+     // Initialize Firebase
+     const app = initializeApp(firebaseConfig);
+     const analytics = getAnalytics(app);
+   
+     import {getDatabase, ref, set, child, update, remove}
+     from  "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+   
+     const db = getDatabase();
+   
+   
+       // Get form elements
+       const registrationForm = document.getElementById('registrationForm');
+       const usernameInput = document.getElementById('username');
+       const firstNameInput = document.getElementById('firstname');
+       const lastNameInput = document.getElementById('lastname');
+       const passwordInput = document.getElementById('password');
+       const confirmPasswordInput = document.getElementById('confirmPassword');
+   
+       // Function to insert data
+       function insertData(event) {
+           event.preventDefault(); // Prevent form from submitting the default way
+   
+           const username = usernameInput.value;
+           const firstName = firstNameInput.value;
+           const lastName = lastNameInput.value;
+           const password = passwordInput.value;
+           const confirmPassword = confirmPasswordInput.value;
+   
+           if (password !== confirmPassword) {
+               alert("Passwords do not match. Please re-enter your passwords.");
+               passwordInput.value = '';
+               confirmPasswordInput.value = '';
+               return;
+           }
+           // Check if password meets requirements (e.g., length, complexity)
+            if (password.length < 8) {
+            alert("Password must be at least 8 characters long.");
+            passwordInput.value = '';
+            confirmPasswordInput.value = '';
+            return;
+            }
+   
+           set(ref(db, "users/" + username), {
+               username: username,
+               firstname: firstName,
+               lastname: lastName,
+               pass: password
+           })
+           .then(() => {
+    registrationForm.reset();
+    Swal.fire({
+        title: "Successful!",
+        text: "Account creation successful",
+        icon: "success"
+    }).then(() => {
+        window.location.href = "login.html";
+    });
+})
+.catch((error) => {
+    Swal.fire({
+        title: "Error!",
+        text: "Account creation failed: " + error.message,
+        icon: "error"
+    });
+});
+       }
+   
+       // Assign event to the form's submit event
+       registrationForm.addEventListener('submit', insertData);
+   </script>
+
+</body>
+</html>
