@@ -22,80 +22,106 @@
         font-family: Arial, sans-serif;
     }
 
-    .container {
-        width: 300px;
-        padding: 20px;
-        background-color: #3B5704;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('bg.png'); 
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            opacity: 0.5;
+        }
 
-    form {
-        display: flex;
-        flex-direction: column;
-    }
+        .container {
+            width: 220px;
+            padding: 50px;
+            background-color: #3B5704;
+            border-radius: 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: center;
+        }
 
-    label {
-        margin-bottom: 5px;
-        color: white;
-    }
+        .logo-container {
+            margin-bottom: 20px;
+        }
 
-    input {
-        padding: 8px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+        .logo-container img {
+            width: 100px;
+            height: auto;
+            margin-bottom: -9px;
+        }
 
-    button {
-        padding: 10px;
-        background-color: #59981A;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-    }
+        .logo-container h2 {
+            color: #EDFFCC;
+            margin: 0;
+            font-size: 24px;
+        }
 
-    button:hover {
-        background-color: #253010;
-    }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .register-link {
-        margin-top: 15px;
-        text-align: center;
-        color: white;
-    }
+        label {
+            color: #EDFFCC;
+            align-self: flex-start;
+            margin-bottom: 5px;
+            text-align: absolute;
+            width: 33%;
+        }
 
-    .logo-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 20px;
-    }
+        input {
+            width: 250px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+        }
 
-    .logo-container img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        margin-right: 5px;
-    }
+        button {
+            width: 253px;
+            padding: 10px;
+            background-color: #59981A;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-    a {
-        text-decoration: none;
-        font-weight: bold;
-        color: white;
-    }
+        button:hover {
+            background-color: #253010;
+        }
 
-    a:hover {
-        color: #ccc;
-    }
+        .register-link {
+            margin-top: -5px;
+            color: #EDFFCC;
+            font-size: 14px;
+        }
+
+        a {
+            color: #EDFFCC;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        a:hover {
+            color: #ccc;
+        }
 </style>
 </head>
 <body>
 
 <div class="container">
     <div class="logo-container">
-        <img src="images/logo.png" alt="Logo">
+        <img src="images/sample.png" alt="Logo">
         <h2 style="color:#EDFFCC; margin: 0;">LifeWell Login</h2>
     </div>
 
