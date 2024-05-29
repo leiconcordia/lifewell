@@ -105,7 +105,83 @@
         .active{
             background: #253010;
         }
-        
+  body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+  .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.date-range,
+.filters {
+  width: 30%;
+  text-align: center;
+}
+
+.filters p {
+  margin-bottom: 5px;
+}
+
+.boxes {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap:80px;
+  position: relative;
+  left: 100px;
+  height: 300px;
+  font-size:larger;
+  
+  
+ 
+}
+
+.box {
+  width: calc(20% - 20px);
+  background-color: mintgreen;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  text-align: center;
+  border: solid black;
+  
+  
+}
+.TotalProducts{
+    position: relative;
+    top: 35px;
+    font-weight:bolder;
+    font-size: 50px;
+}
+
+.box h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Responsive media query */
+@media only screen and (max-width: 768px) {
+  .date-range,
+  .filters,
+  .boxes .box {
+    width: 100%;
+  }
+}
         
     </style>
     <title>Dashboard</title>
@@ -115,7 +191,7 @@
     <div class="sidebar">
         <!-- Sidebar Header -->
         <div class="sidebar-header">
-            <img src="images/logo.png"style="width:40px;height:40px;">
+            <img src="images/sample.png"style="width: 50px;height: 50px;">
             <p>LifeWell</p><!-- Company Name -->
             <a href="user.html">
                 <img id="userhp" src="images/icon.jpg" style="width:50px;height:50px;">
@@ -142,6 +218,35 @@
               location.href = 'supplier.html';
             };
           </script>
+        <script>
+            document.getElementById('logout').onclick = function() {
+              location.href = 'login.html';
+            };
+
+              // Function to get current time
+function getCurrentTime() {
+  var currentTime = new Date();
+  var hours = currentTime.getHours();
+  var minutes = currentTime.getMinutes();
+  var seconds = currentTime.getSeconds();
+  
+  // Add leading zero if minutes or seconds are less than 10
+  minutes = (minutes < 10 ? "0" : "") + minutes;
+  seconds = (seconds < 10 ? "0" : "") + seconds;
+  
+  var timeString = hours + ":" + minutes + ":" + seconds;
+  
+  // Display the current time
+  document.getElementById('current-time').innerHTML = "Current Time: " + timeString;
+}
+
+// Call getCurrentTime function when the page loads
+window.onload = function() {
+  getCurrentTime();
+  // Update the time every second
+  setInterval(getCurrentTime, 1000);
+};
+          </script>
         
     
     </div>
@@ -150,10 +255,114 @@
         <!-- Dashboard Section -->
         <div class="dashboard">
             <!-- Dashboard Title -->
-            <h2 id="dashboard-title">Dashboard</h2>
+            <h2 id="dashboard-title">Sales Dashboard</h2>
+            <p id="current-time"></p>
         
             </div>
-         
+            <div class="container">
+       
+                <div class="date-range">
+                    <p>Auto Date Range</p>
+                    <select id="cars">
+                        <option value="volvo">Year</option>
+                        <option value="saab">Month</option>
+                        <option value="opel">Week</option>
+                        <option value="audi">Today</option>
+                      </select>
+                 
+                </div>
+                <div class="filters">
+
+
+                    <label for="cars">Services:</label>
+
+<select id="cars">
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="opel">Opel</option>
+  <option value="audi">Audi</option>
+</select>
+</div>
+<div class="filters">
+                    <label for="cars">Posts:  </label>
+
+<select id="cars">
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="opel">Opel</option>
+  <option value="audi">Audi</option>
+</select>
+</div>                
+               
+                <div class="boxes">
+                    <div class="box">
+                        <h2>Total Products</h2>
+                        <div class="TotalProducts"  id="dashboardTotalQuantity">0</div>
+                    </div>
+                    <div class="box">
+                        <h2>Total Sales</h2>
+                        <p>0</p>
+                    </div>
+                    <div class="box">
+                        <h2>Profit</h2>
+                        <div class="TotalProducts"  id="Profit">0</div>
+                    </div>
+                    
+                </div>
+
+            </div> 
+            
+            <script type="module">
+                // Import the functions you need from the SDKs you need
+                import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+                import { getDatabase, ref, set, get, child, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+                
+                // Your web app's Firebase configuration
+     const firebaseConfig = {
+       apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
+       authDomain: "lifewell123-94d55.firebaseapp.com",
+       projectId: "lifewell123-94d55",
+       storageBucket: "lifewell123-94d55.appspot.com",
+       messagingSenderId: "958606030210",
+       appId: "1:958606030210:web:095349c11ad004314dcb9b",
+       measurementId: "G-LYPQVRSX5E"
+     };
+        
+                // Initialize Firebase
+                const app = initializeApp(firebaseConfig);
+                const db = getDatabase(app);
+
+             // Function to update the total quantity
+function updateTotalQuantity() {
+    const productsRef = ref(db, "products");
+    get(productsRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                let totalQuantity = 0;
+                snapshot.forEach((childSnapshot) => {
+                    const product = childSnapshot.val();
+                    console.log("Product fetched: ", product); // Debugging log
+                    totalQuantity += product.quantity;
+                });
+                // Display the total quantity on the dashboard
+                console.log("Total Quantity Calculated: ", totalQuantity); // Debugging log
+                document.getElementById('dashboardTotalQuantity').innerText = `${totalQuantity}`;
+            } else {
+                console.log("No products found.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching products:", error);
+        });
+}
+
+// Call this function on page load to initialize the total quantity
+window.onload = function() {
+    updateTotalQuantity();
+};
+
+            </script>
+          </body>
                
             
     <script src="functions.js"></script>
