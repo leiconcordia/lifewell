@@ -185,6 +185,11 @@
             if (snapshot.exists()) {
                 const userData = snapshot.val();
             if (userData.pass === password) {
+
+                 // Store the username in local storage
+                 localStorage.setItem('loggedInUser', username);
+
+                 
                 Swal.fire({
                     title: "Successful!",
                     text: "Login successful!",
