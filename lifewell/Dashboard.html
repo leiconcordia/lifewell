@@ -9,8 +9,6 @@
             margin: 5;
             font-family: Arial, sans-serif;
         }
-
-        /* Sidebar Styles */
         .sidebar {
             width: 250px;
             background-color: #3B5704;
@@ -25,7 +23,7 @@
         .sidebar-header {
             font-size: 30px;
             font-weight: bold;
-            color: #fff;
+            color: #ffffff;
             display: flex;
             flex-direction: row;
             justify-content: start;
@@ -33,6 +31,9 @@
             padding-left: 10px;
             gap: 15px;
             }
+        .sidebar-header img{
+            margin-right: px;
+        }
         .menu {
             list-style-type: none;
             padding: 0;
@@ -58,8 +59,16 @@
             color: #122e02;
         }
 
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
 
-        /* Main Content Styles */
+        .menu button:active {
+            background-color: #043102;
+            color: #122e02;
+        }
+
         .main-content {
             margin-left: 250px;
             padding: 20px;
@@ -67,25 +76,17 @@
 
         .dashboard {
             background-color: #403E3E;
-            padding: 20px;
+            padding: 18px;
             border-radius: 10px;
             color: white;
             margin-top: -40px;
             width: 100%;
-            
+            float: left;
+            padding-left: 30px;
         }
 
-        .dashboard-link{
+        .dashboard-link {
             background-color: #769949;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        select {
-            margin-bottom: 10px;
         }
 
         button {
@@ -98,157 +99,209 @@
             cursor: pointer;
             margin-top: 20px;
             margin-left: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-        .dashboard-link:placeholder-shown{
-            background-color:#000000;
+
+        button:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
-        .active{
+
+        .active {
             background: #253010;
         }
-  body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-}
-  .container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-}
 
-.container h1 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.date-range,
-.filters {
-  width: 30%;
-  text-align: center;
-}
+        .container h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
 
-.filters p {
-  margin-bottom: 5px;
-}
+        .boxes {
+            width: 90%;
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: 15px;
+            row-gap: 30px;
+            position: relative;
+            left: 170px;
+            top:35px;
+        }
 
-.boxes {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap:80px;
-  position: relative;
-  left: 100px;
-  height: 300px;
-  font-size:larger;
-  
-  
- 
-}
+        .box {
+            width: 25%;
+            padding: 25px;
+            margin-bottom: 15px;
+            margin-left: 35px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            position: relative;
+            transition: background-color 0.5s ease, box-shadow 0.3s ease;
+        }
 
-.box {
-  width: calc(20% - 20px);
-  background-color: mintgreen;
-  padding: 20px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  text-align: center;
-  border: solid black;
-  
-  
-}
-.TotalProducts{
-    position: relative;
-    top: 35px;
-    font-weight:bolder;
-    font-size: 50px;
-}
+        .box h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
 
-.box h2 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
+        .box i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
 
-/* Responsive media query */
-@media only screen and (max-width: 768px) {
-  .date-range,
-  .filters,
-  .boxes .box {
-    width: 100%;
-  }
-}
-        
+        .box:nth-child(1) {
+            background-color: #4CAF50;
+        }
+
+        .box:nth-child(2) {
+            background-color: #FF9800;
+        }
+
+        .box:nth-child(3) {
+            background-color: #2196F3;
+        }
+
+        .box:nth-child(4) {
+            background-color: #F44336;
+        }
+
+        .box:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .box:active {
+            background-color: darken(#4CAF50, 10%);
+        }
+
+        .box:nth-child(1):hover,
+        .box:nth-child(1):active {
+            background-color: #388E3C;
+        }
+
+        .box:nth-child(2):hover,
+        .box:nth-child(2):active {
+            background-color: #FB8C00;
+        }
+
+        .box:nth-child(3):hover,
+        .box:nth-child(3):active {
+            background-color: #1976D2;
+        }
+
+        .box:nth-child(4):hover,
+        .box:nth-child(4):active {
+            background-color: #D32F2F;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .boxes .box {
+                width: 100%;
+            }
+        }
+        .summary{
+            background-color: #3B5704;
+            width: 230px;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-weight: bolder;
+            font-size: larger;
+            position: relative;
+            left: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .available-products {
+            text-align: center;
+            font-size: larger;
+        }
+
+        .title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-counts {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: larger;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-counts .instock,
+        .product-counts .outofstock,
+        .product-counts .separator {
+            margin: 0 5px;
+        }
+
+        .labels {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: medium;
+        }
+
+        .labels .instock-label{
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .labels .outofstock-label {
+            margin-left: 0px;
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Dashboard</title>
 </head>
 <body>
-    <!-- Sidebar -->
+   
     <div class="sidebar">
-        <!-- Sidebar Header -->
+        
         <div class="sidebar-header">
-            <img src="images/sample.png"style="width: 50px;height: 50px;">
-            <p>LifeWell</p><!-- Company Name -->
+            <img src="images/sample.png" style="width:40px;height:40px;">
+            <p>LifeWell</p>
+            
             <a href="user.html">
                 <img id="userhp" src="images/icon.jpg" style="width:50px;height:50px;">
             </a>
         </div>
-        <!-- Menu Items -->
-        
+   
         <ul class="menu">
             <li><button class="active" id="dashboard-link">Dashboard</button></li>
-            <li><button id="products-link" href = 'productgraph.html'>Products</button></li>
-            <li><button id="supplier-link" href= 'supplier.html'> Purchase Order</button></li>
+            <li><button id="products-link" href='product.html'>Product</button></li>
+            <li><button id="purchaseorder-link" href='purchase-order.html'> Purchase Order</button></li>
             <li><button id="logout">Logout</button></li>
-
-
         </ul>
         <script>
             document.getElementById('logout').onclick = function() {
-              location.href = 'login.html';
+                location.href = 'login.html';
             };
             document.getElementById('products-link').onclick = function() {
-              location.href = 'productgraph.html';
+                location.href = 'productgraph.html';
             };
-            document.getElementById('supplier-link').onclick = function() {
-              location.href = 'supplier.html';
+            document.getElementById('purchaseorder-link').onclick = function() {
+                location.href = 'Purchase-order.html';
             };
-          </script>
-        <script>
-            document.getElementById('logout').onclick = function() {
-              location.href = 'login.html';
+            document.getElementById('dashboard-link').onclick = function() {
+                location.href = 'Dashboard.html';
             };
-
-              // Function to get current time
-function getCurrentTime() {
-  var currentTime = new Date();
-  var hours = currentTime.getHours();
-  var minutes = currentTime.getMinutes();
-  var seconds = currentTime.getSeconds();
-  
-  // Add leading zero if minutes or seconds are less than 10
-  minutes = (minutes < 10 ? "0" : "") + minutes;
-  seconds = (seconds < 10 ? "0" : "") + seconds;
-  
-  var timeString = hours + ":" + minutes + ":" + seconds;
-  
-  // Display the current time
-  document.getElementById('current-time').innerHTML = "Current Time: " + timeString;
-}
-
-// Call getCurrentTime function when the page loads
-window.onload = function() {
-  getCurrentTime();
-  // Update the time every second
-  setInterval(getCurrentTime, 1000);
-};
-          </script>
-        
-    
+        </script>
     </div>
     <!-- Main Content -->
     <div class="main-content">
@@ -256,97 +309,94 @@ window.onload = function() {
         <div class="dashboard">
             <!-- Dashboard Title -->
             <h2 id="dashboard-title">Sales Dashboard</h2>
-            <p id="current-time"></p>
-        
+        </div>
+        <div class="container">
+            <div class="summary">
+                <p>Inventory Summary</p>
             </div>
-            <div class="container">
-       
-                <div class="date-range">
-                    <p>Auto Date Range</p>
-                    <select id="cars">
-                        <option value="volvo">Year</option>
-                        <option value="saab">Month</option>
-                        <option value="opel">Week</option>
-                        <option value="audi">Today</option>
-                      </select>
-                 
+            <div class="boxes">
+                <div class="box">
+                    <i class="fas fa-box"></i>
+                    <h2>Total Products</h2>
+                    <div class="TotalProducts" id="dashboardTotalQuantity">0</div>
                 </div>
-                <div class="filters">
-
-
-                    <label for="cars">Services:</label>
-
-<select id="cars">
-  <option value="volvo">Volvo</option>
-  <option value="saab">Saab</option>
-  <option value="opel">Opel</option>
-  <option value="audi">Audi</option>
-</select>
-</div>
-<div class="filters">
-                    <label for="cars">Posts:  </label>
-
-<select id="cars">
-  <option value="volvo">Volvo</option>
-  <option value="saab">Saab</option>
-  <option value="opel">Opel</option>
-  <option value="audi">Audi</option>
-</select>
-</div>                
-               
-                <div class="boxes">
-                    <div class="box">
-                        <h2>Total Products</h2>
-                        <div class="TotalProducts"  id="dashboardTotalQuantity">0</div>
-                    </div>
-                    <div class="box">
-                        <h2>Total Sales</h2>
-                        <p>0</p>
-                    </div>
-                    <div class="box">
-                        <h2>Profit</h2>
-                        <div class="TotalProducts"  id="Profit">0</div>
-                    </div>
-                    
+                <div class="box" id="profitBox">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h2>Profit</h2>
+                    <p id="profitValue">0</p>
                 </div>
-
-            </div> 
-            
-            <script type="module">
-                // Import the functions you need from the SDKs you need
-                import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-                import { getDatabase, ref, set, get, child, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
                 
-                // Your web app's Firebase configuration
-     const firebaseConfig = {
-       apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
-       authDomain: "lifewell123-94d55.firebaseapp.com",
-       projectId: "lifewell123-94d55",
-       storageBucket: "lifewell123-94d55.appspot.com",
-       messagingSenderId: "958606030210",
-       appId: "1:958606030210:web:095349c11ad004314dcb9b",
-       measurementId: "G-LYPQVRSX5E"
-     };
-        
-                // Initialize Firebase
-                const app = initializeApp(firebaseConfig);
-                const db = getDatabase(app);
+                <div class="box total-orders-box">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h2>Total Orders</h2>
+                    <p id="totalOrdersCount">0</p>
+                </div>
+                
+                <div class="box">
+                    <i class="fas fa-cubes"></i>
+                    <div class="available-products">
+                        <div class="title">Available Products</div>
+                        <div class="product-counts">
+                            <div class="instock">0</div>
+                            <div class="separator">/</div>
+                            <div class="outofstock">0</div>
+                        </div>
+                        <div class="labels">
+                            <div class="instock-label">In Stock</div>
+                            <div class="outofstock-label">Out of Stock</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-             // Function to update the total quantity
-function updateTotalQuantity() {
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
+            authDomain: "lifewell123-94d55.firebaseapp.com",
+            projectId: "lifewell123-94d55",
+            storageBucket: "lifewell123-94d55.appspot.com",
+            messagingSenderId: "958606030210",
+            appId: "1:958606030210:web:095349c11ad004314dcb9b",
+            measurementId: "G-LYPQVRSX5E"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+// Function to update the total quantity and product counts
+function updateProductCounts() {
     const productsRef = ref(db, "products");
     get(productsRef)
         .then((snapshot) => {
             if (snapshot.exists()) {
                 let totalQuantity = 0;
+                let inStockCount = 0;
+                let outOfStockCount = 0;
+
                 snapshot.forEach((childSnapshot) => {
                     const product = childSnapshot.val();
-                    console.log("Product fetched: ", product); // Debugging log
                     totalQuantity += product.quantity;
+
+                    if (product.quantity > 0) {
+                        inStockCount += 1;
+                    } else {
+                        outOfStockCount += 1;
+                    }
                 });
-                // Display the total quantity on the dashboard
-                console.log("Total Quantity Calculated: ", totalQuantity); // Debugging log
-                document.getElementById('dashboardTotalQuantity').innerText = `${totalQuantity}`;
+
+                // Update the total quantity on the dashboard
+                document.getElementById('dashboardTotalQuantity').innerText = totalQuantity;
+                // Update in stock and out of stock counts
+                document.querySelector('.product-counts .instock').textContent = inStockCount;
+                document.querySelector('.product-counts .outofstock').textContent = outOfStockCount;
             } else {
                 console.log("No products found.");
             }
@@ -356,15 +406,129 @@ function updateTotalQuantity() {
         });
 }
 
-// Call this function on page load to initialize the total quantity
+// Call this function on page load to initialize the total quantity and product counts
 window.onload = function() {
-    updateTotalQuantity();
+    updateProductCounts();
+    updateProfitBox(); // Added to also update profit box on page load
+    updateTotalOrdersCount(); // Added to update total orders count on page load
 };
 
-            </script>
-          </body>
-               
-            
-    <script src="functions.js"></script>
+function updateProfitBox() {
+    const profitBox = document.getElementById('profitValue');
+    let totalProfit = 0;
+
+    const ordersRef = ref(db, 'Order');
+    get(ordersRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const orders = snapshot.val();
+                Object.values(orders).forEach((order) => {
+                    totalProfit += parseInt(order.totalPrice);
+                });
+            }
+            profitBox.textContent = totalProfit; // Display total profit in the box
+        })
+        .catch((error) => {
+            console.error('Error fetching orders:', error);
+        });
+}
+
+function addOrder(event) {
+    event.preventDefault(); // Prevent form submission
+
+    var customerName = document.getElementById('customerName').value.trim();
+    var date = document.getElementById('date').value.trim();
+    var productName = document.getElementById('productNameSelect').value.trim();
+    var quantity = parseInt(document.getElementById('quantity').value.trim());
+
+    // Check if all fields are filled
+    if (customerName && date && productName && quantity) {
+        // Get the product details
+        const productRef = ref(db, 'products/' + productName);
+        get(productRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const product = snapshot.val();
+                    const productPrice = product.price;
+
+                    // Calculate the total price
+                    const totalPrice = productPrice * quantity;
+
+                    // Get the current product quantity
+                    const currentQuantity = product.quantity;
+
+                    if (currentQuantity < quantity) {
+                        alert('Insufficient quantity in stock');
+                        return;
+                    }
+
+                    // Update the product quantity
+                    const updatedQuantity = currentQuantity - quantity;
+                    set(productRef, { ...product, quantity: updatedQuantity })
+                        .then(() => {
+                            console.log('Product quantity updated successfully');
+
+                            // Save the order to the database
+                            const orderRef = ref(db, "Order/" + customerName);
+                            set(orderRef, {
+                                    name: productName,
+                                    quantity: quantity,
+                                    customerName: customerName,
+                                    date: date,
+                                    totalPrice: totalPrice
+                                })
+                                .then(() => {
+                                    Swal.fire({
+                                        title: "Successful!",
+                                        text: "Order added to the database!",
+                                        icon: "success"
+                                    });
+                                    document.getElementById('addOrderForm').reset();
+                                    toggleAddOrderPopup();
+                                    updateProductCounts(); // Update product counts
+                                    updateProfitBox(); // Update profit box
+                                    updateTotalOrdersCount(); // Update total orders count
+                                })
+                                .catch((error) => {
+                                    console.error("Error adding order:", error);
+                                });
+                        })
+                        .catch((error) => {
+                            console.error('Error updating product quantity:', error);
+                        });
+                } else {
+                    console.error('Product not found');
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching product:', error);
+            });
+    } else {
+        alert("Please fill in all fields.");
+    }
+}
+
+document.getElementById('addOrderForm').addEventListener('submit', addOrder);
+
+function updateTotalOrdersCount() {
+    const totalOrdersBox = document.querySelector('.total-orders-box');
+    const totalOrdersCount = document.getElementById('totalOrdersCount');
+
+    const ordersRef = ref(db, 'Order');
+    get(ordersRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const orders = snapshot.val();
+                const totalOrders = Object.keys(orders).length;
+                totalOrdersCount.textContent = totalOrders; // Update total orders count
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching orders:', error);
+        });
+}
+
+
+    </script>
 </body>
 </html>
