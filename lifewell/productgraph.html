@@ -73,13 +73,13 @@
 
         .dashboard {
             background-color: #403E3E;
-            padding: 20px;
+            padding: 18px;
             border-radius: 10px;
             color: white;
             margin-top: -40px;
             width: 100%;
-            align-items: first baseline;
-            right: 10px;
+            float: left;
+            padding-left: 30px;
         }
 
         .dashboard-link {
@@ -131,6 +131,8 @@
             border-radius: 50px;
             overflow-y: auto;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            bottom: 55px;
         }
 
         h2 {
@@ -261,7 +263,8 @@ cursor: pointer;
     text-decoration: none;
     cursor: pointer;
 }
-.delete-button{
+.delete-button,
+.edit-button{
     background-color: #043102;
     width: fit-content;
     font-size: 9px;
@@ -291,7 +294,7 @@ text-align: center;
     cursor: pointer;
     background-color:#043102;
     position: relative;
-    top: 415px;
+    top: 390px;
     left: 310px;
 }
 .addbtn{
@@ -307,7 +310,7 @@ text-align: center;
     <div class="sidebar">
         <!-- Sidebar Header -->
         <div class="sidebar-header">
-            <img src="images/logo.png" style="width:40px;height:40px;">
+            <img src="images/sample.png" style="width:40px;height:40px;">
             <p>LifeWell</p><!-- Company Name -->
             <a href="user.html">
                 <img id="userhp" src="images/icon.jpg" style="width:50px;height:50px;">
@@ -316,22 +319,25 @@ text-align: center;
                 </div>
                 <!-- Menu Items -->
                 <ul class="menu">
-                    <li><button id="dashboard-link" href="Dashboard.html">Dashboard</button></li>
-                    <li><button class="active" id="products-link" href="product.html">Products</button></li>
-                    <li><button id="supplier-link">Purchase Order</button></li>
+                    <li><button id="dashboard-link">Dashboard</button></li>
+                    <li><button class="active"  id="products-link" href='product.html'>Product</button></li>
+                    <li><button id="purchaseorder-link" href='purchase-order.html'> Purchase Order</button></li>
                     <li><button id="logout">Logout</button></li>
-        
-                    <script>
-                        document.getElementById('logout').onclick = function() {
-                          location.href = 'login.html';
-                        };
-                        document.getElementById('products-link').onclick = function() {
-                          location.href = 'productgraph.html';
-                        };
-                        document.getElementById('supplier-link').onclick = function() {
-                          location.href = 'supplier.html';
-                        };
-                      </script>
+                </ul>
+                <script>
+                    document.getElementById('logout').onclick = function() {
+                        location.href = 'login.html';
+                    };
+                    document.getElementById('products-link').onclick = function() {
+                        location.href = 'productgraph.html';
+                    };
+                    document.getElementById('purchaseorder-link').onclick = function() {
+                        location.href = 'Purchase-order.html';
+                    };
+                    document.getElementById('dashboard-link').onclick = function() {
+                        location.href = 'Dashboard.html';
+                    };
+                </script>
                 </ul>
             </div>
             <!-- Main Content -->
@@ -341,284 +347,286 @@ text-align: center;
                     <!-- Dashboard Title -->
                     <h2 id="dashboard-title">Products</h2>
                 </div>
-               
-                <script>
-                    // Array to store product data
-                    var products = [];
-                    var productIdCounter = 1; // Counter for product IDs
-                
-                    // Function to toggle the popup
-                    function togglePopup() {
-                        var popup = document.getElementById('popup');
-                        popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
-                    }
-                
-                    // Function to add a new product to the table
-                    function addProduct(event) {
-                        event.preventDefault(); // Prevent form submission
-                        var productName = document.getElementById('productName').value.trim();
-                        var quantity = parseInt(document.getElementById('quantity').value.trim());
-                        var price = parseFloat(document.getElementById('price').value.trim());
-                
-                        if (productName && quantity && price) {
-                            // Create a new product object with an ID
-                            var product = {
-                                id: productIdCounter++,
-                                name: productName,
-                                quantity: quantity,
-                                price: price
-                            };
-                
-                            // Add the new product to the products array
-                            products.push(product);
-                
-                            // Update the table
-                            updateTable();
-                
-                            // Clear the form fields
-                            document.getElementById('productName').value = '';
-                            document.getElementById('quantity').value = '';
-                            document.getElementById('price').value = '';
-                
-                            // Close the popup
-                            togglePopup();
-                        } else {
-                            alert("Please fill in all fields.");
-                        }
-                    }
-                
-                    // Function to update the table with the current product data
-                    function updateTable() {
-                        var tableBody = document.getElementById('tableBody');
-                        tableBody.innerHTML = '';
-                
-                        // Loop through the products array and add each product to the table
-                        products.forEach(function(product) {
-                            var status = product.quantity === 0 ? 'Out of stock' : 'In stock';
-                            var row = '<tr><td>' + product.id + '</td><td>' + product.name + '</td><td>' + status + '</td><td>' + product.quantity + '</td><td>' + product.price + '</td><td><button class="delete-button" onclick="deleteProduct(' + product.id + ')">Delete</button></td></tr>';
-                            tableBody.innerHTML += row;
-                        });
-                    }
-                
-                    // Function to delete a product from the table
-                    function deleteProduct(productId) {
-                        // Find the index of the product with the given ID
-                        var index = products.findIndex(function(product) {
-                            return product.id === productId;
-                        });
-                
-                        if (index !== -1) {
-                            // Remove the product at the specified index from the products array
-                            products.splice(index, 1);
-                            // Update the table
-                            updateTable();
-                        }
-                    }
-                
-                    // Call updateTable initially to populate the table
-                    updateTable();
-                </script>
+                  
 
+<!-- Add Product Popup -->
+<script>
+    function toggleAddPopup() {
+   var popup = document.getElementById('addProductPopup');
+   popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
+                   }
+</script>
 <div class="buttons">
-    <button class="addpbtn" onclick="togglePopup()">Add product</button> 
+   <button class="addpbtn" onclick="toggleAddPopup()">Add product</button>
 
-    <div class="popup" id="popup">
-        <div class="popup-content">
-            <span class="close" onclick="togglePopup()">&times;</span>
-            <form id="addProductForm">
-                <h2>ADD PRODUCT</h2>
-                <div class="form-group">
-                    <label for="productName">Product name:</label>
-                    <input type="text" class="form-control" id="productName" required>
-                </div>
-                <div class="form-group">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" class="form-control" id="quantity" required>
-                </div>
-                <div class="form-group">
-                    <label for="price">Price:</label>
-                    <input type="number" step="1" class="form-control" id="price" required style="margin-bottom: 10px;">
-                </div>
-                <button type="submit" class="addbtn">Add</button>
-            </form>
-        </div>
-    </div>
+
+<div class="popup" id="addProductPopup">
+   <div class="popup-content">
+       <span class="close" onclick="toggleAddPopup()">&times;</span>
+       <form id="addProductForm">
+           <h2>ADD PRODUCT</h2>
+           <div class="form-group">
+               <label for="productName">Product name:</label>
+               <input type="text" class="form-control" id="productName" required>
+           </div>
+           <div class="form-group">
+               <label for="quantity">Quantity:</label>
+               <input type="number" class="form-control" id="quantity" required>
+           </div>
+           <div class="form-group">
+               <label for="price">Price:</label>
+               <input type="number" step="1" class="form-control" id="price" required style="margin-bottom: 10px;">
+           </div>
+           <button type="submit" class="addbtn">Add</button>
+       </form>
+   </div>
 </div>
-            
-                <div class="container">
-                    <div class="h2-graph">
-                        <h2>Product List</h2>
-                    </div>
-                    <div class="Scrollbar-product"> 
-                        <table id="dataTable">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody id="tableBody"></tbody>
-                        </table>      
-                    </div>
-                </div>
-            </div>
-            <script type="module">
-                // Import the functions you need from the SDKs you need
-                import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-                import { getDatabase, ref, set, get, child, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-                
-                // Your web app's Firebase configuration
-                const firebaseConfig = {
-       apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
-       authDomain: "lifewell123-94d55.firebaseapp.com",
-       projectId: "lifewell123-94d55",
-       storageBucket: "lifewell123-94d55.appspot.com",
-       messagingSenderId: "958606030210",
-       appId: "1:958606030210:web:095349c11ad004314dcb9b",
-       measurementId: "G-LYPQVRSX5E"
-     };
-        
-                // Initialize Firebase
-                const app = initializeApp(firebaseConfig);
-                const db = getDatabase(app);
 
-                function togglePopup() {
-                    var popup = document.getElementById('popup');
-                    popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
-                }
-        
-              
-          
-               // Function to add a new product to the database
-// Initialize a counter for generating sequential IDs
-let idCounter = 0;
+<!-- Edit Product Popup -->
+<div class="popup" id="editProductPopup">
+   <div class="popup-content">
+       <span class="close" onclick="toggleEditPopup()">&times;</span>
+       <form id="editProductForm">
+           <h2>EDIT PRODUCT</h2>
+           <div class="form-group">
+               <label for="editProductName">Product name:</label>
+               <input type="text" class="form-control" id="editProductName" required>
+           </div>
+           <div class="form-group">
+               <label for="editQuantity">Quantity:</label>
+               <input type="number" class="form-control" id="editQuantity" required>
+           </div>
+           <div class="form-group">
+               <label for="editPrice">Price:</label>
+               <input type="number" step="1" class="form-control" id="editPrice" required style="margin-bottom: 10px;">
+           </div>
+           <button type="submit" class="addbtn">Confirm</button>
+       </form>
+   </div>
+</div>
 
-// Function to add a new product to the database
-function addProduct(event) {
-    event.preventDefault(); // Prevent form submission
-    var productName = document.getElementById('productName').value.trim();
-    var quantity = document.getElementById('quantity').value.trim();
-    var price = document.getElementById('price').value.trim();
+<div class="container">
+   <div class="h2-graph">
+       <h2>Product List</h2>
+   </div>
+   <div class="Scrollbar-product">
+       <table id="dataTable">
+           <thead>
+           <tr>
+               <th>ID</th>
+               <th>Name</th>
+               <th>Status</th>
+               <th>Quantity</th>
+               <th>Price</th>
+               <th>Action</th>
+           </tr>
+           </thead>
+           <tbody id="tableBody"></tbody>
+       </table>
+   </div>
+</div>
 
-    if (productName && quantity && price) {
-        // Increment the counter to get the next ID
-        const id = Date.now().toString();
-        
-        // Add the product to the database with the generated ID
-        set(ref(db, "products/" + id), {
-            name: productName,
-            quantity: parseInt(quantity),
-            price: parseFloat(price)
-        })
-        .then(() => {
-            Swal.fire({
-                title: "Successful!",
-                text: "Product added to the database!",
-                icon: "success"
-            });
-            document.getElementById('addProductForm').reset();
-            console.log("Product added successfully");
-            togglePopup();
-        })
-        .catch((error) => {
-            console.error("Error adding product:", error);
-        });
-    } else {
-        alert("Please fill in all fields.");
-    }
+           <script type="module">
+               // Import the functions you need from the SDKs you need
+               import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+               import { getDatabase, ref, set, get, child, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+               
+               // Your web app's Firebase configuration
+               const firebaseConfig = {
+      apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
+      authDomain: "lifewell123-94d55.firebaseapp.com",
+      projectId: "lifewell123-94d55",
+      storageBucket: "lifewell123-94d55.appspot.com",
+      messagingSenderId: "958606030210",
+      appId: "1:958606030210:web:095349c11ad004314dcb9b",
+      measurementId: "G-LYPQVRSX5E"
+    };
+       
+               // Initialize Firebase
+               const app = initializeApp(firebaseConfig);
+               const db = getDatabase(app);
+
+let currentProductId = null;
+
+// Function to toggle the add product popup
+function toggleAddPopup() {
+   var popup = document.getElementById('addProductPopup');
+   popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
 }
 
-// Function to fetch products from the database and update the table
+// Function to toggle the edit product popup
+function toggleEditPopup() {
+   var popup = document.getElementById('editProductPopup');
+   popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+}
+
+// Function to show the popup with pre-filled data for editing
+function showEditPopup(id, name, quantity, price) {
+   currentProductId = id;
+   document.getElementById('editProductName').value = name;
+   document.getElementById('editQuantity').value = quantity;
+   document.getElementById('editPrice').value = price;
+   toggleEditPopup();
+}
+
+// Function to update a product in the database
+function updateProduct(event) {
+   event.preventDefault(); // Prevent form submission
+
+   var productName = document.getElementById('editProductName').value.trim();
+   var quantity = document.getElementById('editQuantity').value.trim();
+   var price = document.getElementById('editPrice').value.trim();
+
+   if (productName && quantity && price) {
+       // Update the product in the database
+       set(ref(db, "products/" + currentProductId), {
+           name: productName,
+           quantity: parseInt(quantity),
+           price: parseFloat(price)
+       })
+       .then(() => {
+           Swal.fire({
+               title: "Successful!",
+               text: "Product updated in the database!",
+               icon: "success"
+           });
+           document.getElementById('editProductForm').reset();
+           toggleEditPopup();
+           fetchProducts(); // Refresh the product list
+       })
+       .catch((error) => {
+           console.error("Error updating product:", error);
+       });
+   } else {
+       alert("Please fill in all fields.");
+   }
+}
+// Fetch and display products
 function fetchProducts() {
-    const productsRef = ref(db, 'products');
-    onValue(productsRef, (snapshot) => {
-        if (snapshot.exists()) {
-            console.log("Data snapshot exists");
-            const products = snapshot.val();
-            console.log("Products:", products);
-            const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = ''; // Clear the table
-            Object.keys(products).forEach((id) => {
-                const product = products[id];
-                const status = parseInt(product.quantity) === 0 ? 'Out of stock' : 'In stock';
-                const row = `<tr>
-                    <td>${id}</td>
-                    <td>${product.name}</td>
-                    <td>${status}</td>
-                    <td>${product.quantity}</td>
-                    <td>${product.price}</td>
-                     <td><button class="delete-button" data-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6.386c0-.484.345-.877.771-.877h2.665c.529-.016.996-.399 1.176-.965l.03-.1l.115-.391c.07-.24.131-.45.217-.637c.338-.739.964-1.252 1.687-1.383c.184-.033.378-.033.6-.033h3.478c.223 0 .417 0 .6.033c.723.131 1.35.644 1.687 1.383c.086.187.147.396.218.637l.114.391l.03.1c.18.566.74.95 1.27.965h2.57c.427 0 .772.393.772.877s-.345.877-.771.877H3.77c-.425 0-.77-.393-.77-.877"/><path fill="currentColor" fill-rule="evenodd" d="M11.596 22h.808c2.783 0 4.174 0 5.08-.886c.904-.886.996-2.339 1.181-5.245l.267-4.188c.1-1.577.15-2.366-.303-2.865c-.454-.5-1.22-.5-2.753-.5H8.124c-1.533 0-2.3 0-2.753.5c-.454.5-.404 1.288-.303 2.865l.267 4.188c.185 2.906.277 4.36 1.182 5.245c.905.886 2.296.886 5.079.886m-1.35-9.811c-.04-.434-.408-.75-.82-.707c-.413.043-.713.43-.672.864l.5 5.263c.04.434.408.75.82.707c.413-.043.713-.43.672-.864zm4.329-.707c.412.043.713.43.671.864l-.5 5.263c-.04.434-.409.75-.82.707c-.413-.043-.713-.43-.672-.864l.5-5.263c.04-.434.409-.75.82-.707" clip-rule="evenodd"/></svg>
-                        </button> <button class="edit-button" data-id="${id}" data-name="${product.name}" data-quantity="${product.quantity}" data-price="${product.price}"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1m-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71m10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg></button></td>
-                </tr>`;
-                tableBody.innerHTML += row;
-            });
-            // Call updateDeleteButtons after the table is updated
-            updateDeleteButtons();
-        } else {
-            console.log("No data available");
-        }
-    }, (error) => {
-        console.error("Error fetching products:", error);
-    });
+   const productsRef = ref(db, 'products');
+   onValue(productsRef, (snapshot) => {
+       if (snapshot.exists()) {
+           const products = snapshot.val();
+           const tableBody = document.getElementById('tableBody');
+           tableBody.innerHTML = ''; // Clear the table
+           Object.keys(products).forEach((id) => {
+               const product = products[id];
+               const status = parseInt(product.quantity) === 0 ? 'Out of stock' : 'In stock';
+               const row = `<tr>
+                   <td>${id}</td>
+                   <td>${product.name}</td>
+                   <td>${status}</td>
+                   <td>${product.quantity}</td>
+                   <td>${product.price}</td>
+                   <td><button class="delete-button" data-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6.386c0-.484.345-.877.771-.877h2.665c.529-.016.996-.399 1.176-.965l.03-.1l.115-.391c.07-.24.131-.45.217-.637c.338-.739.964-1.252 1.687-1.383c.184-.033.378-.033.6-.033h3.478c.223 0 .417 0 .6.033c.723.131 1.35.644 1.687 1.383c.086.187.147.396.218.637l.114.391l.03.1c.18.566.74.95 1.27.965h2.57c.427 0 .772.393.772.877s-.345.877-.771.877H3.77c-.425 0-.77-.393-.77-.877"/><path fill="currentColor" fill-rule="evenodd" d="M11.596 22h.808c2.783 0 4.174 0 5.08-.886c.904-.886.996-2.339 1.181-5.245l.267-4.188c.1-1.577.15-2.366-.303-2.865c-.454-.5-1.22-.5-2.753-.5H8.124c-1.533 0-2.3 0-2.753.5c-.454.5-.404 1.288-.303 2.865l.267 4.188c.185 2.906.277 4.36 1.182 5.245c.905.886 2.296.886 5.079.886m-1.35-9.811c-.04-.434-.408-.75-.82-.707c-.413.043-.713.43-.672.864l.5 5.263c.04.434.408.75.82.707c.413-.043.713-.43.672-.864zm4.329-.707c.412.043.713.43.671.864l-.5 5.263c-.04.434-.409.75-.82.707c-.413-.043-.713-.43-.672-.864l.5-5.263c.04-.434.409-.75.82-.707" clip-rule="evenodd"/></svg>
+                       </button> <button class="edit-button" data-id="${id}" data-name="${product.name}" data-quantity="${product.quantity}" data-price="${product.price}"
+                       ><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1m-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71m10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg></button></td>   
+               </tr>`;
+               tableBody.innerHTML += row;
+           });
+           updateButtons();
+       } else {
+           console.log("No data available");
+       }
+   }, (error) => {
+       console.error("Error fetching products:", error);
+   });
 }
 
-// Function to delete a product from the database
+// Update the delete and edit buttons in the table to call the appropriate functions
+function updateButtons() {
+   var deleteButtons = document.querySelectorAll('.delete-button');
+   deleteButtons.forEach(function(button) {
+       button.addEventListener('click', function() {
+           var id = this.getAttribute('data-id'); // Get the product ID from the button's data-id attribute
+           deleteProduct(id);
+       });
+   });
+
+   var editButtons = document.querySelectorAll('.edit-button');
+   editButtons.forEach(function(button) {
+       button.addEventListener('click', function() {
+           var id = this.getAttribute('data-id'); // Get the product ID from the button's data-id attribute
+           var name = this.getAttribute('data-name');
+           var quantity = this.getAttribute('data-quantity');
+           var price = this.getAttribute('data-price');
+           showEditPopup(id, name, quantity, price);
+       });
+   });
+}
+
 function deleteProduct(id) {
-    // Show the confirmation dialog
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If confirmed, proceed to delete the product from the database
-            remove(ref(db, "products/" + id))
-                .then(() => {
-                    fetchProducts(); // Update the table
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Product deleted from database.",
-                        icon: "success"
-                    });
-                })
-                .catch((error) => {
-                    Swal.fire({
-                        title: "Error!",
-                        text: "Failed to delete product from database.",
-                        icon: "error"
-                    });
-                });
-        }
-    });
-}
-
-// Update the delete buttons in the table to call the deleteProduct function
-function updateDeleteButtons() {
-    var deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            var id = this.getAttribute('data-id'); // Get the product ID from the button's data-id attribute
-            deleteProduct(id);
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      remove(ref(db, 'products/' + id))
+      .then(() => {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Product deleted",
+          icon: "success"
         });
-    });
+        fetchProducts(); // Refresh the product list
+      })
+      .catch((error) => {
+        console.error("Error deleting product:", error);
+      });
+    }
+  });
 }
 
-// Attach event listener to the form for adding products
-document.getElementById('addProductForm').addEventListener('submit', addProduct);
 
-// Fetch and display products when the page loads
-document.addEventListener('DOMContentLoaded', fetchProducts);
-            </script>
-        
-        <script src="functions.js"></script>
+// Add a new product to the database
+function addProduct(event) {
+   event.preventDefault(); // Prevent form submission
+
+   var productName = document.getElementById('productName').value.trim();
+   var quantity = document.getElementById('quantity').value.trim();
+   var price = document.getElementById('price').value.trim();
+
+   if (productName && quantity && price) {
+       // Generate a new product ID based on a timestamp
+       var newProductId = Date.now().toString();
+
+       // Save the product to the database
+       set(ref(db, "products/" + newProductId), {
+           name: productName,
+           quantity: parseInt(quantity),
+           price: parseFloat(price)
+       })
+       .then(() => {
+           Swal.fire({
+               title: "Successful!",
+               text: "Product added to the database!",
+               icon: "success"
+           });
+           document.getElementById('addProductForm').reset();
+           toggleAddPopup();
+           fetchProducts(); // Refresh the product list
+       })
+       .catch((error) => {
+           console.error("Error adding product:", error);
+       });
+   } else {
+       alert("Please fill in all fields.");
+   }
+}
+
+// Add event listeners to the forms
+document.getElementById('addProductForm').addEventListener('submit', addProduct);
+document.getElementById('editProductForm').addEventListener('submit', updateProduct);
+
+// Fetch the products when the page loads
+window.addEventListener('load', fetchProducts);
+</script>
+
            
         </body>
         </html>
