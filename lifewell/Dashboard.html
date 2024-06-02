@@ -426,12 +426,14 @@ function updateProfitBox() {
                     totalProfit += parseInt(order.totalPrice);
                 });
             }
-            profitBox.textContent = totalProfit; // Display total profit in the box
+            profitBox.textContent = `₱ ${totalProfit.toLocaleString()}`; // Display total profit with peso sign and comma formatting
         })
         .catch((error) => {
             console.error('Error fetching orders:', error);
         });
 }
+
+
 
 function addOrder(event) {
     event.preventDefault(); // Prevent form submission
