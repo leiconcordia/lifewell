@@ -110,6 +110,9 @@
 
         <!-- Registration Form -->
         <form id="registrationForm">
+            <label for="role">Role</label>
+            <input type="text" id="role" name="role" placeholder="Enter role" required>
+     
             <label for="username">Username</label>
             <input type="text" id="username" name="username" placeholder="Enter username" required>
      
@@ -163,10 +166,14 @@
      from  "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
    
      const db = getDatabase();
-   
-   
+
+
+
+
+
        // Get form elements
        const registrationForm = document.getElementById('registrationForm');
+       const roleInput = document.getElementById('role');
        const usernameInput = document.getElementById('username');
        const firstNameInput = document.getElementById('firstname');
        const lastNameInput = document.getElementById('lastname');
@@ -178,6 +185,7 @@
            event.preventDefault(); // Prevent form from submitting the default way
    
            const username = usernameInput.value;
+           const role = roleInput.value;
            const firstName = firstNameInput.value;
            const lastName = lastNameInput.value;
            const password = passwordInput.value;
@@ -201,10 +209,12 @@
                username: username,
                firstname: firstName,
                lastname: lastName,
-               pass: password
+               pass: password,
+               role: role
            })
            .then(() => {
     registrationForm.reset();
+    registrationCount++; // Increment the registration count
     Swal.fire({
         title: "Successful!",
         text: "Account creation successful",
@@ -224,7 +234,9 @@
    
        // Assign event to the form's submit event
        registrationForm.addEventListener('submit', insertData);
+    
    </script>
+   
 
 </body>
 </html>
