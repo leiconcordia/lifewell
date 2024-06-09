@@ -2,10 +2,15 @@
 <html lang="en">
 
 <head>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/df632fa5d4.js" crossorigin="anonymous"></script>
+    
     <title>User Profile</title>
     <style>
         body {
@@ -121,7 +126,8 @@
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            
+            position: relative;
+            top: 20px;
         }
 
         h2 {
@@ -156,6 +162,70 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+       
+        .changepasscontainer {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .password-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .password-container input {
+            width: 100%;
+            padding-right: 30px; /* space for the eye icon */
+        }
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .overlay {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 500;
+        }
+        .admin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.sidebar-letter {
+    color: white;
+    font-size: 15px;
+    margin: 0px;
+    font-weight: bolder;
+    font-style: initial;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure the parent has a height set, if needed */
+}
+.icon{
+    position: relative;;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    left: 18px;
+
+}
     </style>
 </head>
 
@@ -202,27 +272,47 @@
             <h2 id="dashboard-title">User</h2>
         
             </div>
+            <div>
+                <p id="role"></p>
+            </div>
 
         <script src="functions.js"></script>  
     
         <div class="container">
-            <h2>User Profile</h2>
+            
+
             <form>
-                <label for="email">Username:</label>
-                <input type="text" id="email" name="email" readonly>
-                <label for="fname">First Name:</label>
-                <input type="text" id="fname" name="fname">
-                <label for="lname">Last Name:</label>
-                <input type="text" id="lname" name="lname">
+                <div class="form-group">
+                    <label for="fname">Role: </label>
+                    <input type="text" id="Role" name="role" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="email">Username:</label>
+                    <input type="text" id="email" name="email" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="fname">First Name:</label>
+                    <input type="text" id="fname" name="fname" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="lname">Last Name:</label>
+                    <input type="text" id="lname" name="lname" readonly>
+                </div>
+                
             </form>
         </div>
+
+      
+    
+        
+   
         
         
         <script type="module">
             // Import Firebase SDKs
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
             import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
-            import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+            import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
     
             // Firebase configuration
             const firebaseConfig = {
@@ -238,43 +328,79 @@
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
-            const db = getDatabase();
+            const db = getDatabase(app);
     
-// Function to fetch and display user data
-function fetchUserData(username) {
+            // Fetch user data function
+            function fetchUserData(username) {
+                const userRef = ref(db, "users/" + username);
+                get(userRef)
+                    .then((snapshot) => {
+                        if (snapshot.exists()) {
+                            const userData = snapshot.val();
+                            console.log("User data fetched:", userData); // Debugging log
+    
+                            document.getElementById('email').value = userData.username;
+                            document.getElementById('fname').value = userData.firstname;
+                            document.getElementById('lname').value = userData.lastname;
+                            document.getElementById('Role').value = userData.role;
+                        } else {
+                            console.log("No user data found.");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching user data:", error);
+                    });
+            }
+    
+            // Call this function with the username when the page loads
+            window.onload = function() {
+                const username = localStorage.getItem('loggedInUser'); // Get the username from local storage
+                if (username) {
+                    fetchUserData(username);
+                    fetchRole();
+                } else {
+                    console.log("No logged-in user found.");
+                }
+                
+            };
+
+            function fetchRole() {
+    const roleElement = document.getElementById('role');
+
+    const username = localStorage.getItem('loggedInUser'); // Get the username from local storage
+    if (!username) {
+        console.log("No logged-in user found."); // Debug log
+        return;
+    }
+
     const userRef = ref(db, "users/" + username);
     get(userRef)
         .then((snapshot) => {
             if (snapshot.exists()) {
                 const userData = snapshot.val();
-                console.log("User data fetched:", userData); // Debugging log
+                console.log("User data fetched:", userData); // Debug log
 
-                document.getElementById('email').value = userData.username;
-                document.getElementById('fname').value = userData.firstname;
-                document.getElementById('lname').value = userData.lastname;
+                if (roleElement) {
+                    const roleText = `Hi welcome ${userData.role || "Role not found"}`;
+                    console.log("Setting role:", roleText); // Debug log
+                    roleElement.textContent = roleText;
+                } else {
+                    console.log("Role element not found."); // Debug log
+                }
             } else {
-                console.log("No user data found.");
+                console.log("No user data found."); // Debug log
             }
         })
         .catch((error) => {
-            console.error("Error fetching user data:", error);
+            console.error("Error fetching user data:", error); // Debug log
         });
 }
 
-// Call this function with the username when the page loads
-window.onload = function() {
-    const username = localStorage.getItem('loggedInUser'); // Get the username from local storage
-    if (username) {
-        fetchUserData(username);
-    } else {
-        console.log("No logged in user found.");
-        // Optionally redirect to login page if no user is logged in
-        window.location.href = 'login.html';
-    }
-};
 
 
 
         </script>
+    </body>
+    </html>
     </body>
     </html>
