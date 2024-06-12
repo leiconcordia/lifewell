@@ -1,3 +1,5 @@
+Kulottt🫶
+Gwyn Stacy
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,14 +32,17 @@
         .sidebar-header {
             font-size: 30px;
             font-weight: bold;
-            color: #fff;
+            color: #ffffff;
             display: flex;
             flex-direction: row;
-            justify-content: start;
+            justify-content: center;
             align-items: center;
             padding-left: 10px;
-            gap: 15px;
-
+            gap: 10px;
+            position: absolute;
+            bottom: 80px;
+            left:60px;
+            
             }
 
 
@@ -80,6 +85,7 @@
             width: 100%;
             float: left;
             padding-left: 30px;
+            height: 70px;
         }
 
         .dashboard-link {
@@ -327,22 +333,52 @@ text-align: center;
     left: 18px;
 
 }
-    </style>
-    
+.admin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.sidebar-letter {
+    color: white;
+    font-size: 15px;
+    margin: 0px;
+    font-weight: bolder;
+    font-style: initial;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure the parent has a height set, if needed */
+}
+.icon{
+    position: relative;;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    left: 18px;
+
+}
+</style>
     <title>Dashboard</title>
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar Header -->
         <div class="sidebar-header">
+            <p>LifeWell</p>
             <img src="images/sample.png" style="width:40px;height:40px;">
-            <p>LifeWell</p><!-- Company Name -->
-            <a href="user.html">
-                <img id="userhp" src="images/icon.jpg" style="width:50px;height:50px;">
-            </a>
+        </div>
+        
 
-                </div>
+        <div class="admin">
+            <a href="user.html" class="user-button">
+                <img class="icon"  src="images/icon.jpg" style="width:70px;height:70px;">
+                <p id="name" class="sidebar-letter"></p>
+                <p id="role" class="sidebar-letter"></p>
+            </a>
+        </div>
+
                 <!-- Menu Items -->
                 <ul class="menu">
                     <li><button id="dashboard-link">Dashboard</button></li>
@@ -377,6 +413,8 @@ text-align: center;
 
 <!-- Add Order Popup -->
 <script>
+let currentOrderId = null;
+
     function toggleAddOrderPopup() {
         var popup = document.getElementById('addOrderPopup');
         popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
@@ -387,13 +425,15 @@ text-align: center;
         popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
     }
   
-    function showEditPopup(date, productName, quantity, customerName) {
-        document.getElementById('editDate').value = date;
-        document.getElementById('editQuantity').value = quantity;
-        document.getElementById('editProductName').value = productName;
-        document.getElementById('editCustomerName').value = customerName;
-        toggleEditPopup(); // Make sure to toggle the popup display
-    }
+    function showEditPopup(orderId, date, productName, quantity, customerName) {
+    currentOrderId = orderId; // Set the currentOrderId here
+    document.getElementById('editDate').value = date;
+    document.getElementById('editQuantity').value = quantity;
+    document.getElementById('editProductName').value = productName;
+    document.getElementById('editCustomerName').value = customerName;
+    toggleEditPopup(); // Make sure to toggle the popup display
+}
+    
   </script>
 
 <div class="container">
@@ -452,7 +492,7 @@ text-align: center;
 <div class="popup" id="editProductPopup">
     <div class="popup-content">
         <span class="close" onclick="toggleEditPopup()">&times;</span>
-        <form id="editProductForm" onsubmit="updateProduct(event)">
+        <form id="editOrderForm" onsubmit="updateOrder(event)">
             <h2>EDIT ORDER</h2>
             <div class="form-group">
                 <label for="editDate">Date</label>
@@ -502,7 +542,6 @@ measurementId: "G-LYPQVRSX5E"
     const db = getDatabase(app);
     
 
-    let currentOrdertId = null;
     populateProductOptions();
 // Function to toggle the add product popup
 function toggleAddOrderPopup() {
@@ -516,29 +555,7 @@ function toggleEditPopup() {
     popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
 }
 
-function showEditPopup(date, productId, quantity, customerName) {
-    // Set the form values
-    document.getElementById('editDate').value = date;
-    document.getElementById('editQuantity').value = quantity;
-    document.getElementById('editCustomerName').value = customerName; // Set customer name
 
-    // Set the correct product name
-    const editProductName = document.getElementById('editProductName');
-    editProductName.innerHTML = ''; // Clear existing options
-
-    for (const [id, name] of Object.entries(productMap)) {
-        const option = document.createElement('option');
-        option.value = id;
-        option.textContent = name;
-        if (id === productId) {
-            option.selected = true; // Select the current product
-        }
-        editProductName.appendChild(option);
-    }
-
-    // Toggle the edit popup display
-    toggleEditPopup();
-}
 
 
 
@@ -594,7 +611,169 @@ async function populateProductOptions() {
     }
 
 
-    function addOrder(event) {
+ 
+
+async function updateOrder(event) {
+    event.preventDefault();
+
+    const orderId = currentOrderId;
+    const updatedCustomerName = document.getElementById('editCustomerName').value.trim();
+    const updatedDate = document.getElementById('editDate').value.trim();
+    const updatedProductId = document.getElementById('editProductName').value.trim();
+    const updatedQuantity = parseInt(document.getElementById('editQuantity').value.trim());
+
+    console.log("Update Order Called");
+    console.log("Order ID:", orderId);
+    console.log("Updated Customer Name:", updatedCustomerName);
+    console.log("Updated Date:", updatedDate);
+    console.log("Updated Product ID:", updatedProductId);
+    console.log("Updated Quantity:", updatedQuantity);
+
+    if (updatedCustomerName && updatedDate && updatedProductId && updatedQuantity) {
+        try {
+            const orderRef = ref(db, 'Order/' + orderId);
+            const orderSnapshot = await get(orderRef);
+            if (orderSnapshot.exists()) {
+                const order = orderSnapshot.val();
+                console.log("Existing Order:", order);
+
+                const oldProductRef = ref(db, 'products/' + order.productnameselected);
+                const oldProductSnapshot = await get(oldProductRef);
+                if (oldProductSnapshot.exists()) {
+                    const oldProduct = oldProductSnapshot.val();
+                    console.log("Old Product:", oldProduct);
+                    const revertedQuantity = oldProduct.quantity + order.quantity;
+                    await set(oldProductRef, { ...oldProduct, quantity: revertedQuantity });
+
+                    const newProductRef = ref(db, 'products/' + updatedProductId);
+                    const newProductSnapshot = await get(newProductRef);
+                    if (newProductSnapshot.exists()) {
+                        const newProduct = newProductSnapshot.val();
+                        console.log("New Product:", newProduct);
+                        const newProductQuantity = newProduct.quantity - updatedQuantity;
+                        await set(newProductRef, { ...newProduct, quantity: newProductQuantity });
+
+                        const updatedTotalPrice = newProduct.price * updatedQuantity;
+                        await set(orderRef, {
+                            customerName: updatedCustomerName,
+                            date: updatedDate,
+                            productnameselected: updatedProductId,
+                            quantity: updatedQuantity,
+                            totalPrice: updatedTotalPrice
+                        });
+
+                        Swal.fire({
+                            title: "Successful!",
+                            text: "Order updated in the database!",
+                            icon: "success"
+                        });
+
+                        document.getElementById('editOrderForm').reset();
+                        toggleEditPopup();
+                        fetchOrders();
+                    } else {
+                        console.error('New product not found with ID:', updatedProductId);
+                    }
+                } else {
+                    console.error('Old product not found with ID:', order.productnameselected);
+                }
+            } else {
+                console.error('Order not found with ID:', orderId);
+            }
+        } catch (error) {
+            console.error('Error updating order:', error);
+        }
+    } else {
+        alert("Please fill in all fields.");
+    }
+}
+
+
+function fetchOrders() {
+    const tableBody = document.getElementById('tableBody');
+    tableBody.innerHTML = ''; // Clear existing table body
+
+    const ordersRef = ref(db, 'Order');
+    get(ordersRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const orders = snapshot.val();
+
+                // Iterate over each order and create a table row
+                Object.keys(orders).forEach((orderId) => {
+                    const order = orders[orderId];
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${order.date}</td>
+                        <td>${order.customerName}</td>
+                        <td>${order.productnameselected}</td>
+                        <td>${order.quantity}</td>
+                        <td>${order.totalPrice.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })}</td>
+                        <td>
+                            <button class="delete-button" data-id="${orderId}" onclick="deleteOrder('${orderId}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6.386c0-.484.345-.877.771-.877h2.665c.529-.016.996-.399 1.176-.965l.03-.1l.115-.391c.07-.24.131-.45.217-.637c.338-.739.964-1.252 1.687-1.383c.184-.033.378-.033.6-.033h3.478c.223 0 .417 0 .6.033c.723.131 1.35.644 1.687 1.383c.086.187.147.396.218.637l.114.391l.03.1c.18.566.74.95 1.27.965h2.57c.427 0 .772.393.772.877s-.345.877-.771.877H3.77c-.425 0-.77-.393-.77-.877"/><path fill="currentColor" fill-rule="evenodd" d="M11.596 22h.808c2.783 0 4.174 0 5.08-.886c.904-.886.996-2.339 1.181-5.245l.267-4.188c.1-1.577.15-2.366-.303-2.865c-.454-.5-1.22-.5-2.753-.5H8.124c-1.533 0-2.3 0-2.753.5c-.454.5-.404 1.288-.303 2.865l.267 4.188c.185 2.906.277 4.36 1.182 5.245c.905.886 2.296.886 5.079.886m-1.35-9.811c-.04-.434-.408-.75-.82-.707c-.413.043-.713.43-.672.864l.5 5.263c.04.434.408.75.82.707c.413-.043.713-.43.672-.864zm4.329-.707c.412.043.713.43.671.864l-.5 5.263c-.04.434-.409.75-.82.707c-.413-.043-.713-.43-.672-.864l.5-5.263c.04-.434.409-.75.82-.707" clip-rule="evenodd"/></svg></button>
+                            <button class="edit-button" 
+                                data-id="${orderId}" 
+                                data-customername="${order.customerName}" 
+                                data-productname="${order.productnameselected}" 
+                                data-quantity="${order.quantity}" 
+                                data-date="${order.date}" 
+                                onclick="showEditPopup('${orderId}','${order.date}',  '${order.productnameselected}', ${order.quantity}, '${order.customerName}')"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1m-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71m10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg></button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                updateButtons(); // Ensure buttons are updated after rows are created
+            } else {
+                console.log('No orders found');
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching orders:', error);
+        });
+}
+
+
+
+function deleteOrder(customerName) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            remove(ref(db, 'Order/' + customerName))
+                .then(() => {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Order deleted",
+                        icon: "success"
+                    });
+                    fetchOrders(); // Refresh the order list
+                })
+                .catch((error) => {
+                    console.error("Error deleting order:", error);
+                });
+        }
+    });
+}
+
+function updateButtons() {
+    var deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var customerName = this.getAttribute('data-id'); // Get the customer name from the button's data-id attribute
+            deleteOrder(customerName);
+        });
+    });
+}
+
+function addOrder(event) {
     event.preventDefault(); // Prevent form submission
 
     var customerName = document.getElementById('customerName').value.trim();
@@ -650,7 +829,7 @@ async function populateProductOptions() {
                                     });
                                     document.getElementById('addOrderForm').reset();
                                     toggleAddOrderPopup();
-                                    fetchProducts(); // Refresh the product list
+                                    fetchOrders(); // Refresh the product list
                                 })
                                 .catch((error) => {
                                     console.error("Error adding order:", error);
@@ -670,173 +849,48 @@ async function populateProductOptions() {
         alert("Please fill in all fields.");
     }
 }
+function fetchRoleAndName() {
+            const roleElement = document.getElementById('role');
+            const nameElement = document.getElementById('name');
 
-
-
-function fetchOrders() {
-    const tableBody = document.getElementById('tableBody');
-    tableBody.innerHTML = ''; // Clear existing table body
-
-    const ordersRef = ref(db, 'Order');
-    get(ordersRef)
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const orders = snapshot.val();
-
-                // Iterate over each order and create a table row
-                Object.keys(orders).forEach((orderId) => {
-                    const order = orders[orderId];
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${order.date}</td>
-                        <td>${order.customerName}</td>
-                        <td>${order.productnameselected}</td>
-                        <td>${order.quantity}</td>
-                        <td>${order.totalPrice.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })}</td>
-                        <td>
-                            <button class="delete-button" data-id="${orderId}" onclick="deleteOrder('${orderId}')">delete</button>
-                            <button class="edit-button" 
-                                data-id="${orderId}" 
-                                data-customername="${order.customerName}" 
-                                data-productname="${order.productnameselected}" 
-                                data-quantity="${order.quantity}" 
-                                data-date="${order.date}" 
-                                onclick="showEditPopup('${order.date}', '${order.productnameselected}', ${order.quantity}, '${order.customerName}')">edit</button>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-
-                updateButtons(); // Ensure buttons are updated after rows are created
-            } else {
-                console.log('No orders found');
+            const username = localStorage.getItem('loggedInUser'); // Get the username from local storage
+            if (!username) {
+                console.log("No logged-in user found."); // Debug log
+                return;
             }
-        })
-        .catch((error) => {
-            console.error('Error fetching orders:', error);
-        });
-}
 
-async function updateOrder(event) {
-        event.preventDefault();
+            const userRef = ref(db, "users/" + username);
+            get(userRef)
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+                        console.log("User data fetched:", userData); // Debug log
 
-        const orderId = currentOrderId;
-        const updatedCustomerName = document.getElementById('editCustomerName').value.trim();
-        const updatedDate = document.getElementById('editDate').value.trim();
-        const updatedProductId = document.getElementById('editProductName').value.trim();
-        const updatedQuantity = parseInt(document.getElementById('editQuantity').value.trim());
-
-        if (updatedCustomerName && updatedDate && updatedProductId && updatedQuantity) {
-            try {
-                const orderRef = ref(db, 'Order/' + orderId);
-                const orderSnapshot = await get(orderRef);
-                if (orderSnapshot.exists()) {
-                    const order = orderSnapshot.val();
-
-                    const oldProductRef = ref(db, 'products/' + order.productnameselected);
-                    const oldProductSnapshot = await get(oldProductRef);
-                    if (oldProductSnapshot.exists()) {
-                        const oldProduct = oldProductSnapshot.val();
-                        const revertedQuantity = oldProduct.quantity + order.quantity;
-                        await set(oldProductRef, { ...oldProduct, quantity: revertedQuantity });
-
-                        const newProductRef = ref(db, 'products/' + updatedProductId);
-                        const newProductSnapshot = await get(newProductRef);
-                        if (newProductSnapshot.exists()) {
-                            const newProduct = newProductSnapshot.val();
-                            const newProductQuantity = newProduct.quantity - updatedQuantity;
-                            await set(newProductRef, { ...newProduct, quantity: newProductQuantity });
-
-                            const updatedTotalPrice = newProduct.price * updatedQuantity;
-                            await set(orderRef, {
-                                customerName: updatedCustomerName,
-                                date: updatedDate,
-                                productnameselected: updatedProductId,
-                                quantity: updatedQuantity,
-                                totalPrice: updatedTotalPrice
-                            });
-
-                            Swal.fire({
-                                title: "Successful!",
-                                text: "Order updated in the database!",
-                                icon: "success"
-                            });
-
-                            document.getElementById('editProductForm').reset();
-                            toggleEditPopup();
-                            fetchOrders();
+                        if (roleElement) {
+                            console.log("Setting role:", userData.role); // Debug log
+                            roleElement.textContent = userData.role || "Role not found";
                         } else {
-                            console.error('New product not found');
+                            console.log("Role element not found."); // Debug log
+                        }
+
+                        if (nameElement) {
+                            const fullName = `${userData.firstname} ${userData.lastname}`;
+
+                            console.log("Setting full name:", fullName); // Debug log
+                            nameElement.textContent = fullName || "Name not found";
+                        } else {
+                            console.log("Name element not found."); // Debug log
                         }
                     } else {
-                        console.error('Old product not found');
+                        console.log("No user data found."); // Debug log
                     }
-                } else {
-                    console.error('Order not found');
-                }
-            } catch (error) {
-                console.error('Error updating order:', error);
-            }
-        } else {
-            alert("Please fill in all fields.");
-        }
-    }
-
-function deleteOrder(customerName) {
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            remove(ref(db, 'Order/' + customerName))
-                .then(() => {
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Order deleted",
-                        icon: "success"
-                    });
-                    fetchOrders(); // Refresh the order list
                 })
                 .catch((error) => {
-                    console.error("Error deleting order:", error);
+                    console.error("Error fetching user data:", error); // Debug log
                 });
         }
-    });
-}
-
-function updateButtons() {
-    var deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            var customerName = this.getAttribute('data-id'); // Get the customer name from the button's data-id attribute
-            deleteOrder(customerName);
-        });
-    });
-}
-document.querySelectorAll('.edit-button').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var orderId = this.getAttribute('data-id'); // Get the order ID from the button's data-id attribute
-        editOrder(orderId);
-    });
-});
 
 
-var editButtons = document.querySelectorAll('.edit-button');{
-   editButtons.forEach(function(button) {
-       button.addEventListener('click', function() { // Get the product ID from the button's data-id attribute
-           var customerName = this.getAttribute('data-customername');
-           var name = this.getAttribute(' data-productname');
-           var quantity = this.getAttribute('data-quantity');
-           var date = this.getAttribute('data-date');
-           showEditPopup(customerName, name, quantity, date);
-       });
-   });
-}
 
 
 
@@ -845,17 +899,15 @@ var editButtons = document.querySelectorAll('.edit-button');{
 // Combine both functions into a single event handler
 window.onload = function () {
     fetchProductNames();
+    fetchRoleAndName();
 };
 
 document.getElementById('addOrderForm').addEventListener('submit', addOrder);
+document.getElementById('editOrderForm').addEventListener('submit', updateOrder);
 
 document.addEventListener('DOMContentLoaded', function() {
     fetchOrders(); // Call fetchOrders when the DOM is ready
 });
-
-
-
-
 
 </script>
  
