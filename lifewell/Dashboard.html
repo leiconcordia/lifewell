@@ -1,3 +1,5 @@
+Kulottt🫶
+Gwyn Stacy
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,9 +36,7 @@
             left:60px;
             
             }
-        .sidebar-header img{
-            margin-right: px;
-        }
+        
         .menu {
             list-style-type: none;
             padding: 0;
@@ -79,13 +79,14 @@
 
         .dashboard {
             background-color: #403E3E;
-            padding: 10px;
+            padding: 18px;
             border-radius: 10px;
             color: white;
-            margin-top: -30px;
+            margin-top: -45px;
             width: 100%;
             float: left;
             padding-left: 30px;
+            height: 70px;
         }
 
         .dashboard-link {
@@ -304,16 +305,14 @@
         <div class="sidebar-header">
             <p>LifeWell</p>
             <img src="images/sample.png" style="width:40px;height:40px;">
-            
-            
         </div>
         
 
         <div class="admin">
             <a href="user.html" class="user-button">
                 <img class="icon"  src="images/icon.jpg" style="width:70px;height:70px;">
-                <p id="name" class="sidebar-letter">loading...</p>
-                <p id="role" class="sidebar-letter">loading...</p>
+                <p id="name" class="sidebar-letter"></p>
+                <p id="role" class="sidebar-letter"></p>
             </a>
         </div>
 
@@ -475,7 +474,7 @@
                         });
 
                         // Update the total quantity on the dashboard
-                        document.getElementById('dashboardTotalQuantity').innerText = totalQuantity;
+                        document.getElementById('dashboardTotalQuantity').innerText = totalQuantity.toLocaleString();
                         // Update in stock and out of stock counts
                         document.querySelector('.product-counts .instock').textContent = inStockCount;
                         document.querySelector('.product-counts .outofstock').textContent = outOfStockCount;
