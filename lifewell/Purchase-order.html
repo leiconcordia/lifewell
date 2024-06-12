@@ -1,24 +1,26 @@
-Kulottt🫶
-Gwyn Stacy
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purchase Order</title>
-    <link rel="icon" href="images/logo.png" type="image/png">
+    <script src="https://kit.fontawesome.com/df632fa5d4.js" crossorigin="anonymous"></script>
+    
+    <title>User Profile</title>
     <style>
-        /* Global Styles */
         body {
-            margin: 5;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
         }
 
-        /* Sidebar Styles */
         .sidebar {
             width: 250px;
             background-color: #3B5704;
@@ -27,6 +29,7 @@ Gwyn Stacy
             top: 0;
             left: 0;
             padding: 20px;
+        
         }
 
         .sidebar-header {
@@ -44,12 +47,12 @@ Gwyn Stacy
             left:60px;
             
             }
-
-
+        
         .menu {
             list-style-type: none;
             padding: 0;
-            border: none;
+            
+            
         }
 
         .menu li a {
@@ -70,6 +73,7 @@ Gwyn Stacy
             color: #122e02;
         }
 
+
         /* Main Content Styles */
         .main-content {
             margin-left: 250px;
@@ -78,17 +82,17 @@ Gwyn Stacy
 
         .dashboard {
             background-color: #403E3E;
-            padding: 18px;
+            padding: 10px;
             border-radius: 10px;
             color: white;
-            margin-top: -40px;
+            margin-top: -30px;
             width: 100%;
             float: left;
             padding-left: 30px;
             height: 70px;
         }
 
-        .dashboard-link {
+        .dashboard-link{
             background-color: #769949;
         }
 
@@ -112,745 +116,314 @@ Gwyn Stacy
             margin-top: 20px;
             margin-left: 30px;
         }
-
-        .dashboard-link:placeholder-shown {
-            background-color: #000000;
+        .dashboard-link:placeholder-shown{
+            background-color:#000000;
         }
-
-        .active {
-            background-color: #253010;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #d3f4cf;
-            margin: 0;
-            padding: 0;
+        .active{
+            background-color:#253010;
         }
 
         .container {
-            width: 90%;
-            height: 500px;
-            margin: 30px auto;
-            background-color: #ffffff;
+            max-width: 600px;
+            margin: 50px auto;
             padding: 20px;
-            border-radius: 50px;
-            overflow-y: auto;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-            top: 17px;
-        }
-
-        h2 {
-            text-align: left;
-            margin-left: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 30px;
-        }
-
-        th,
-        td {
-            padding: 8px;
-            text-align: center;
-            align-self: center;
-            
-            
-            
-        }
-
-        th {
             background-color: #3B5704;
-            color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            top: 20px;
+            color: #e9edf0;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        
+
+        label {
+            display: block;
+            margin-bottom: 5px;
         }
 
-        .buttons {
-            text-align: center;
-            margin-top:10px;
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
             cursor: pointer;
         }
 
-        .buttons button:hover {
-            background-color:#000000;
+        input[type="submit"]:hover {
+            background-color: #45a049;
         }
+       
+        .changepasscontainer {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .password-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .password-container input {
+            width: 100%;
+            padding-right: 30px; /* space for the eye icon */
+        }
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .overlay {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 500;
+        }
+        .admin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
-        .h2-graph {
-            background-color: #3B5704;
-            width: 215px;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-        }
+.sidebar-letter {
+    color: white;
+    font-size: 15px;
+    margin: 0px;
+    font-weight: bolder;
+    font-style: initial;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure the parent has a height set, if needed */
+}
+.icon{
+    position: relative;;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    left: 18px;
+
+}
+.welcome{
+    background-color: #3B5704;
+    position: relative;
+    left: 50px;
+    top: 20px;
+    margin-bottom: 10px;
+    font-size: 50px;
+    width: 450px;
+    border-radius: 10px;
+    color: #ffffff
     
-
-
-/* The Modal (background) */
-.modal {
-display: none; /* Hidden by default */
-position: fixed; /* Stay in place */
-z-index: 1; /* Sit on top */
-padding-top: 100px; /* Location of the box */
-left: 0;
-top: 0;
-width: 100%; /* Full width */
-height: 100%; /* Full height */
-overflow: auto; /* Enable scroll if needed */
-background-color: rgb(0,0,0); /* Fallback color */
-background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-background-color: #fefefe;
-margin: auto;
-padding: 20px;
-border: 1px solid #888;
-width: 80%;
-max-width: 800px;
-}
-
-/* The Close Button */
-.close {
-color: #aaa;
-float: right;
-font-size: 28px;
-font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-color: black;
-text-decoration: none;
-cursor: pointer;
-}
-
-.popup {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.4);
-    overflow: auto;
-}
-
-.popup-content {
-    position: absolute;
-    left: 59%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fefefe;
-    padding: 20px;
-    border: 1px solid #888;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-}
-
-.close {
-    color: #aaa;
-    font-weight: bold;
-    position: relative;
-    bottom: 3px;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-.delete-button,
-.edit-button{
-    background-color: #043102;
-    width: fit-content;
-    font-size: 9px;
-    margin: 0%;
-}
-
-.form-control{
-text-align: center;
-
-}
-#addProductForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-top: 30px; /* Adjust margin as needed */
-}
-
-.form-group {
-    margin-bottom: 20px; /* Adjust spacing between form groups */
-}
-
-.addpbtn{
-    text-align: center;
-    margin-top:10px;
-    cursor: pointer;
-    background-color:#043102;
-    position: relative;
-    top: 10px;
-    left: 310px;
-}
-.addbtn{
-    background-color: #043102;
-}
-.admin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.sidebar-letter {
-    color: white;
-    font-size: 15px;
-    margin: 0px;
-    font-weight: bolder;
-    font-style: initial;
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100%; /* Ensure the parent has a height set, if needed */
-}
-.icon{
-    position: relative;;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    left: 18px;
-
-}
-.admin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.sidebar-letter {
-    color: white;
-    font-size: 15px;
-    margin: 0px;
-    font-weight: bolder;
-    font-style: initial;
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100%; /* Ensure the parent has a height set, if needed */
-}
-.icon{
-    position: relative;;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    left: 18px;
+   
+   
+    
 
 }
 </style>
-    <title>Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<title>Dashboard</title>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <p>LifeWell</p>
-            <img src="images/sample.png" style="width:40px;height:40px;">
-        </div>
+<div class="sidebar">
+    <div class="sidebar-header">
+        <p>LifeWell</p>
+        <img src="images/sample.png" style="width:40px;height:40px;">
+    </div>
+    
+
+    <div class="admin">
+        <a href="user.html" class="user-button">
+            <img class="icon"  src="images/icon.jpg" style="width:70px;height:70px;">
+            <p id="name" class="sidebar-letter"></p>
+            <p id="roole" class="sidebar-letter"></p>
+        </a>
+    </div>
+        <!-- Menu Items -->
         
-
-        <div class="admin">
-            <a href="user.html" class="user-button">
-                <img class="icon"  src="images/icon.jpg" style="width:70px;height:70px;">
-                <p id="name" class="sidebar-letter"></p>
-                <p id="role" class="sidebar-letter"></p>
-            </a>
-        </div>
-
-                <!-- Menu Items -->
-                <ul class="menu">
-                    <li><button id="dashboard-link">Dashboard</button></li>
-                    <li><button id="products-link" href='product.html'>Product</button></li>
-                    <li><button class="active"  id="purchaseorder-link" href='purchase-order.html'> Purchase Order</button></li>
-                    <li><button id="logout">Logout</button></li>
-                </ul>
-                <script>
-                    document.getElementById('logout').onclick = function() {
-                        location.href = 'login.html';
-                    };
-                    document.getElementById('products-link').onclick = function() {
-                        location.href = 'productgraph.html';
-                    };
-                    document.getElementById('purchaseorder-link').onclick = function() {
-                        location.href = 'Purchase-order.html';
-                    };
-                    document.getElementById('dashboard-link').onclick = function() {
-                        location.href = 'Dashboard.html';
-                    };
-                </script>
-                </ul>
+        <ul class="menu">
+            <li><button id="dashboard-link">Dashboard</button></li>
+            <li><button id="products-link" href='product.html'>Product</button></li>
+            <li><button id="purchaseorder-link" href='purchase-order.html'> Purchase Order</button></li>
+            <li><button id="logout">Logout</button></li>
+        </ul>
+        <script>
+            document.getElementById('logout').onclick = function() {
+                location.href = 'login.html';
+            };
+            document.getElementById('products-link').onclick = function() {
+                location.href = 'productgraph.html';
+            };
+            document.getElementById('purchaseorder-link').onclick = function() {
+                location.href = 'Purchase-order.html';
+            };
+            document.getElementById('dashboard-link').onclick = function() {
+                location.href = 'Dashboard.html';
+            };
+        </script>
+    
+    
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Section -->
+        <div class="dashboard">
+            <!-- Dashboard Title -->
+            <h2 id="dashboard-title">User</h2>
+        
             </div>
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Dashboard Section -->
-                <div class="dashboard">
-                    <!-- Dashboard Title -->
-                    <h2 id="dashboard-title">Purchase Order</h2>
+            <div>
+                <p class="welcome" id="role"></p>
+            </div>
+
+        <script src="functions.js"></script>  
+    
+        <div class="container">
+            
+
+            <form>
+                <div class="form-group">
+                    <label for="fname">Role: </label>
+                    <input type="text" id="Role" name="role" readonly>
                 </div>
-                 
-
-<!-- Add Order Popup -->
-<script>
-let currentOrderId = null;
-
-    function toggleAddOrderPopup() {
-        var popup = document.getElementById('addOrderPopup');
-        popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
-    }
-  
-    function toggleEditPopup() {
-        var popup = document.getElementById('editProductPopup');
-        popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
-    }
-  
-    function showEditPopup(orderId, date, productName, quantity, customerName) {
-    currentOrderId = orderId; // Set the currentOrderId here
-    document.getElementById('editDate').value = date;
-    document.getElementById('editQuantity').value = quantity;
-    document.getElementById('editProductName').value = productName;
-    document.getElementById('editCustomerName').value = customerName;
-    toggleEditPopup(); // Make sure to toggle the popup display
-}
-    
-  </script>
-
-<div class="container">
-    <div class="h2-graph">
-        <h2>Order List</h2>
-    </div>
-    <div class="Scrollbar-product">
-        <table id="dataTable">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Customer Name</th>
-                    <th>Product Name</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
-    </div>
-  </div>
-  
-
-
-<div class="buttons">
-  <button class="addpbtn" onclick="toggleAddOrderPopup()">Purchase Order</button>
-</div>
-
-<div class="popup" id="addOrderPopup">
-  <div class="popup-content">
-      <span class="close" onclick="toggleAddOrderPopup()">&times;</span>
-      <form id="addOrderForm" onsubmit="addProduct(event)">
-          <h2>ADD ORDER</h2>
-          <div class="form-group">
-              <label for="date">Date</label>
-              <input type="date" class="form-control" id="date" required>
-          </div>
-          <div class="form-group">
-              <label for="customerName">Customer Name:</label>
-              <input type="text" class="form-control" id="customerName" required>
-          </div>
-          <div class="form-group">
-            <label for="productName">Product name</label>
-            <select class="form-control" id="productNameSelect" required></select>
-          </div>
-          <div class="form-group">
-            <label for="quantity">Quantity:</label>
-            <input type="number" step="1" class="form-control" id="quantity" min="0" required style="margin-bottom: 10px;">
-        </div>
-        
-          <button type="submit" class="addbtn">Order</button>
-      </form>
-  </div>
-</div>
-<div class="popup" id="editProductPopup">
-    <div class="popup-content">
-        <span class="close" onclick="toggleEditPopup()">&times;</span>
-        <form id="editOrderForm" onsubmit="updateOrder(event)">
-            <h2>EDIT ORDER</h2>
-            <div class="form-group">
-                <label for="editDate">Date</label>
-                <input type="date" class="form-control" id="editDate" required>
-            </div>
-            <div class="form-group">
-                <label for="editCustomerName">Customer Name:</label>
-                <input type="text" class="form-control" id="editCustomerName" required>
-            </div>
-            <div class="form-group">
-                <label for="editProductName">Product name</label>
-                <select class="form-control" id="editProductName" required>
-                    <!-- Options will be dynamically populated here -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="editQuantity">Quantity:</label>
-                <input type="number" step="1" class="form-control" id="editQuantity" min="0" required style="margin-bottom: 10px;">
-            </div>
-            <button type="submit" class="addbtn">Save changes</button>
-        </form>
-    </div>
-</div>
-
-
-
-
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, set, get, child, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-    
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
-authDomain: "lifewell123-94d55.firebaseapp.com",
-projectId: "lifewell123-94d55",
-storageBucket: "lifewell123-94d55.appspot.com",
-messagingSenderId: "958606030210",
-appId: "1:958606030210:web:095349c11ad004314dcb9b",
-measurementId: "G-LYPQVRSX5E"
-};
-
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    
-
-    populateProductOptions();
-// Function to toggle the add product popup
-function toggleAddOrderPopup() {
-   var popup = document.getElementById('addOrderPopup');
-   popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
-}
-
-// Function to toggle the edit order popup
-function toggleEditPopup() {
-    var popup = document.getElementById('editProductPopup');
-    popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
-}
-
-
-
-
-
-// Fetch product names from the database and populate the dropdown
-function fetchProductNames() {
-    const productsRef = ref(db, 'products');
-    get(productsRef)
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                const productNameSelect = document.getElementById('productNameSelect');
-
-                // Clear existing options
-                productNameSelect.innerHTML = '';
-
-                // Add each product name as an option
-                Object.keys(data).forEach((productId) => {
-                    const productName = data[productId].name;
-                    const option = document.createElement('option');
-                    option.value = productId;
-                    option.textContent = productName;
-                    productNameSelect.appendChild(option);
-                });
-            }
-        })
-        .catch((error) => {
-            console.error('Error fetching product names:', error);
-        });
-}
-
-
-
-const editProductName = document.getElementById('editProductName');
-
-async function populateProductOptions() {
-        const dbRef = ref(db);
-        try {
-            const snapshot = await get(child(dbRef, 'products'));
-            if (snapshot.exists()) {
-                snapshot.forEach((childSnapshot) => {
-                    const productName = childSnapshot.val().name;
-                    const option = document.createElement('option');
-                    option.value = productName;
-                    option.textContent = productName;
-                    editProductName.appendChild(option);
-                });
-            } else {
-                console.log("No products found.");
-            }
-        } catch (error) {
-            console.error("Error fetching products: ", error);
-        }
-    }
-
-
- 
-
-async function updateOrder(event) {
-    event.preventDefault();
-
-    const orderId = currentOrderId;
-    const updatedCustomerName = document.getElementById('editCustomerName').value.trim();
-    const updatedDate = document.getElementById('editDate').value.trim();
-    const updatedProductId = document.getElementById('editProductName').value.trim();
-    const updatedQuantity = parseInt(document.getElementById('editQuantity').value.trim());
-
-    console.log("Update Order Called");
-    console.log("Order ID:", orderId);
-    console.log("Updated Customer Name:", updatedCustomerName);
-    console.log("Updated Date:", updatedDate);
-    console.log("Updated Product ID:", updatedProductId);
-    console.log("Updated Quantity:", updatedQuantity);
-
-    if (updatedCustomerName && updatedDate && updatedProductId && updatedQuantity) {
-        try {
-            const orderRef = ref(db, 'Order/' + orderId);
-            const orderSnapshot = await get(orderRef);
-            if (orderSnapshot.exists()) {
-                const order = orderSnapshot.val();
-                console.log("Existing Order:", order);
-
-                const oldProductRef = ref(db, 'products/' + order.productnameselected);
-                const oldProductSnapshot = await get(oldProductRef);
-                if (oldProductSnapshot.exists()) {
-                    const oldProduct = oldProductSnapshot.val();
-                    console.log("Old Product:", oldProduct);
-                    const revertedQuantity = oldProduct.quantity + order.quantity;
-                    await set(oldProductRef, { ...oldProduct, quantity: revertedQuantity });
-
-                    const newProductRef = ref(db, 'products/' + updatedProductId);
-                    const newProductSnapshot = await get(newProductRef);
-                    if (newProductSnapshot.exists()) {
-                        const newProduct = newProductSnapshot.val();
-                        console.log("New Product:", newProduct);
-                        const newProductQuantity = newProduct.quantity - updatedQuantity;
-                        await set(newProductRef, { ...newProduct, quantity: newProductQuantity });
-
-                        const updatedTotalPrice = newProduct.price * updatedQuantity;
-                        await set(orderRef, {
-                            customerName: updatedCustomerName,
-                            date: updatedDate,
-                            productnameselected: updatedProductId,
-                            quantity: updatedQuantity,
-                            totalPrice: updatedTotalPrice
-                        });
-
-                        Swal.fire({
-                            title: "Successful!",
-                            text: "Order updated in the database!",
-                            icon: "success"
-                        });
-
-                        document.getElementById('editOrderForm').reset();
-                        toggleEditPopup();
-                        fetchOrders();
-                    } else {
-                        console.error('New product not found with ID:', updatedProductId);
-                    }
-                } else {
-                    console.error('Old product not found with ID:', order.productnameselected);
-                }
-            } else {
-                console.error('Order not found with ID:', orderId);
-            }
-        } catch (error) {
-            console.error('Error updating order:', error);
-        }
-    } else {
-        alert("Please fill in all fields.");
-    }
-}
-
-
-function fetchOrders() {
-    const tableBody = document.getElementById('tableBody');
-    tableBody.innerHTML = ''; // Clear existing table body
-
-    const ordersRef = ref(db, 'Order');
-    get(ordersRef)
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const orders = snapshot.val();
-
-                // Iterate over each order and create a table row
-                Object.keys(orders).forEach((orderId) => {
-                    const order = orders[orderId];
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${order.date}</td>
-                        <td>${order.customerName}</td>
-                        <td>${order.productnameselected}</td>
-                        <td>${order.quantity}</td>
-                        <td>${order.totalPrice.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })}</td>
-                        <td>
-                            <button class="delete-button" data-id="${orderId}" onclick="deleteOrder('${orderId}')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6.386c0-.484.345-.877.771-.877h2.665c.529-.016.996-.399 1.176-.965l.03-.1l.115-.391c.07-.24.131-.45.217-.637c.338-.739.964-1.252 1.687-1.383c.184-.033.378-.033.6-.033h3.478c.223 0 .417 0 .6.033c.723.131 1.35.644 1.687 1.383c.086.187.147.396.218.637l.114.391l.03.1c.18.566.74.95 1.27.965h2.57c.427 0 .772.393.772.877s-.345.877-.771.877H3.77c-.425 0-.77-.393-.77-.877"/><path fill="currentColor" fill-rule="evenodd" d="M11.596 22h.808c2.783 0 4.174 0 5.08-.886c.904-.886.996-2.339 1.181-5.245l.267-4.188c.1-1.577.15-2.366-.303-2.865c-.454-.5-1.22-.5-2.753-.5H8.124c-1.533 0-2.3 0-2.753.5c-.454.5-.404 1.288-.303 2.865l.267 4.188c.185 2.906.277 4.36 1.182 5.245c.905.886 2.296.886 5.079.886m-1.35-9.811c-.04-.434-.408-.75-.82-.707c-.413.043-.713.43-.672.864l.5 5.263c.04.434.408.75.82.707c.413-.043.713-.43.672-.864zm4.329-.707c.412.043.713.43.671.864l-.5 5.263c-.04.434-.409.75-.82.707c-.413-.043-.713-.43-.672-.864l.5-5.263c.04-.434.409-.75.82-.707" clip-rule="evenodd"/></svg></button>
-                            <button class="edit-button" 
-                                data-id="${orderId}" 
-                                data-customername="${order.customerName}" 
-                                data-productname="${order.productnameselected}" 
-                                data-quantity="${order.quantity}" 
-                                data-date="${order.date}" 
-                                onclick="showEditPopup('${orderId}','${order.date}',  '${order.productnameselected}', ${order.quantity}, '${order.customerName}')"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1m-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71m10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z"/></svg></button>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-
-                updateButtons(); // Ensure buttons are updated after rows are created
-            } else {
-                console.log('No orders found');
-            }
-        })
-        .catch((error) => {
-            console.error('Error fetching orders:', error);
-        });
-}
-
-
-
-function deleteOrder(customerName) {
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            remove(ref(db, 'Order/' + customerName))
-                .then(() => {
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Order deleted",
-                        icon: "success"
-                    });
-                    fetchOrders(); // Refresh the order list
-                })
-                .catch((error) => {
-                    console.error("Error deleting order:", error);
-                });
-        }
-    });
-}
-
-function updateButtons() {
-    var deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            var customerName = this.getAttribute('data-id'); // Get the customer name from the button's data-id attribute
-            deleteOrder(customerName);
-        });
-    });
-}
-
-function addOrder(event) {
-    event.preventDefault(); // Prevent form submission
-
-    var customerName = document.getElementById('customerName').value.trim();
-    var date = document.getElementById('date').value.trim();
-    var productId = document.getElementById('productNameSelect').value.trim();
-    var quantity = parseInt(document.getElementById('quantity').value.trim());
-
-    // Check if all fields are filled
-    if (customerName && date && productId && quantity) {
-        
-        var newOrderId = Date.now().toString();
-
-        // Get the product details
-        const productRef = ref(db, 'products/' + productId);
-        get(productRef)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const product = snapshot.val();
-                    const productName = product.name; // Fetch the product name
-                    const productPrice = product.price;
-
-                    // Calculate the total price
-                    const totalPrice = productPrice * quantity;
-
-                    // Get the current product quantity
-                    const currentQuantity = product.quantity;
-
-                    if (currentQuantity < quantity) {
-                        alert('Insufficient quantity in stock');
-                        return;
-                    }
+                <div class="form-group">
+                    <label for="email">Username:</label>
+                    <input type="text" id="email" name="email" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="fname">First Name:</label>
+                    <input type="text" id="fname" name="fname" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="lname">Last Name:</label>
+                    <input type="text" id="lname" name="lname" readonly>
+                </div>
                 
-                    // Update the product quantity
-                    const updatedQuantity = currentQuantity - quantity;
-                    set(productRef, { ...product, quantity: updatedQuantity })
-                        .then(() => {
-                            console.log('Product quantity updated successfully');
+            </form>
+        </div>
 
-                            // Save the order to the database
-                            const orderRef = ref(db, "Order/" + newOrderId);
-                            set(orderRef, {
-                                    customerName: customerName,
-                                    date: date,
-                                    productnameselected: productName,
-                                    quantity: quantity,
-                                    totalPrice: totalPrice
-                                })
-                                .then(() => {
-                                    Swal.fire({
-                                        title: "Successful!",
-                                        text: "Order added to the database!",
-                                        icon: "success"
-                                    });
-                                    document.getElementById('addOrderForm').reset();
-                                    toggleAddOrderPopup();
-                                    fetchOrders(); // Refresh the product list
-                                })
-                                .catch((error) => {
-                                    console.error("Error adding order:", error);
-                                });
-                        })
-                        .catch((error) => {
-                            console.error('Error updating product quantity:', error);
-                        });
+      
+    
+        
+   
+        
+        
+        <script type="module">
+            // Import Firebase SDKs
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+            import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyAnu2hRn5EHErnB833iYnvas53jfVL-OQg",
+                authDomain: "lifewell123-94d55.firebaseapp.com",
+                projectId: "lifewell123-94d55",
+                storageBucket: "lifewell123-94d55.appspot.com",
+                messagingSenderId: "958606030210",
+                appId: "1:958606030210:web:095349c11ad004314dcb9b",
+                measurementId: "G-LYPQVRSX5E"
+            };
+    
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            const db = getDatabase(app);
+    
+            // Fetch user data function
+            function fetchUserData(username) {
+                const userRef = ref(db, "users/" + username);
+                get(userRef)
+                    .then((snapshot) => {
+                        if (snapshot.exists()) {
+                            const userData = snapshot.val();
+                            console.log("User data fetched:", userData); // Debugging log
+    
+                            document.getElementById('email').value = userData.username;
+                            document.getElementById('fname').value = userData.firstname;
+                            document.getElementById('lname').value = userData.lastname;
+                            document.getElementById('Role').value = userData.role;
+                        } else {
+                            console.log("No user data found.");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching user data:", error);
+                    });
+            }
+    
+            // Call this function with the username when the page loads
+            window.onload = function() {
+                const username = localStorage.getItem('loggedInUser'); // Get the username from local storage
+                if (username) {
+                    fetchUserData(username);
+                    fetchRole();
+                    fetchRoleAndName();
                 } else {
-                    console.error('Product not found');
+                    console.log("No logged-in user found.");
                 }
-            })
-            .catch((error) => {
-                console.error('Error fetching product:', error);
-            });
-    } else {
-        alert("Please fill in all fields.");
+                
+            };
+
+            function fetchRole() {
+    const roleElement = document.getElementById('role');
+
+    const username = localStorage.getItem('loggedInUser'); // Get the username from local storage
+    if (!username) {
+        console.log("No logged-in user found."); // Debug log
+        return;
     }
+
+    const userRef = ref(db, "users/" + username);
+    get(userRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                console.log("User data fetched:", userData); // Debug log
+
+                if (roleElement) {
+                    const roleText = `Hi welcome ${userData.role || "Role not found"}!`;
+                    console.log("Setting role:", roleText); // Debug log
+                    roleElement.textContent = roleText;
+                } else {
+                    console.log("Role element not found."); // Debug log
+                }
+            } else {
+                console.log("No user data found."); // Debug log
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching user data:", error); // Debug log
+        });
 }
+
 function fetchRoleAndName() {
-            const roleElement = document.getElementById('role');
+            const roleElement = document.getElementById('roole');
             const nameElement = document.getElementById('name');
 
             const username = localStorage.getItem('loggedInUser'); // Get the username from local storage
@@ -891,26 +464,13 @@ function fetchRoleAndName() {
         }
 
 
+   
 
 
 
 
-
-// Combine both functions into a single event handler
-window.onload = function () {
-    fetchProductNames();
-    fetchRoleAndName();
-};
-
-document.getElementById('addOrderForm').addEventListener('submit', addOrder);
-document.getElementById('editOrderForm').addEventListener('submit', updateOrder);
-
-document.addEventListener('DOMContentLoaded', function() {
-    fetchOrders(); // Call fetchOrders when the DOM is ready
-});
-
-</script>
- 
-
-        </body>
-        </html> 
+        </script>
+    </body>
+    </html>
+    </body>
+    </html>
